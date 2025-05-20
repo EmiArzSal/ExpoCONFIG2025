@@ -1,15 +1,35 @@
+"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { CalendarDays, Award, Users, MapPin, Clock, ChevronRight, ExternalLink, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function Home() {
-  // Fecha de la expo (ejemplo)
-  const expoDate = new Date("2024-06-20T10:00:00")
-  const currentDate = new Date()
-  const timeRemaining = expoDate.getTime() - currentDate.getTime()
-  const daysRemaining = Math.max(0, Math.floor(timeRemaining / (1000 * 60 * 60 * 24)))
+  const expoDate = new Date("2025-06-20T10:00:00")
+  const [timeRemaining, setTimeRemaining] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentDate = new Date()
+      const remainingTime = expoDate.getTime() - currentDate.getTime()
+
+      const days = Math.max(0, Math.floor(remainingTime / (1000 * 60 * 60 * 24)))
+      const hours = Math.max(0, Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+      const minutes = Math.max(0, Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60)))
+      const seconds = Math.max(0, Math.floor((remainingTime % (1000 * 60)) / 1000))
+
+      setTimeRemaining({ days, hours, minutes, seconds })
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [expoDate])
 
   return (
     <div className="min-h-screen">
@@ -21,10 +41,10 @@ export default function Home() {
             <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="#acerca-de" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link href="/pages/about" className="text-gray-600 hover:text-blue-600 transition-colors">
               Acerca de
             </Link>
-            <Link href="#agenda" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link href="/pages/agenda" className="text-gray-600 hover:text-blue-600 transition-colors">
               Agenda
             </Link>
             <Link href="#proyectos" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -82,17 +102,21 @@ export default function Home() {
               <p className="text-gray-600">¡No te pierdas esta oportunidad de conocer proyectos innovadores!</p>
             </div>
             <div className="flex gap-4">
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">{daysRemaining}</div>
+              <div className="bg-blue-50 rounded-lg p-4 w-24 text-center">
+                <div className="text-3xl font-bold text-blue-600">{timeRemaining.days}</div>
                 <div className="text-sm text-gray-600">Días</div>
               </div>
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">12</div>
+              <div className="bg-blue-50 rounded-lg p-4 w-24 text-center">
+                <div className="text-3xl font-bold text-blue-600">{timeRemaining.hours}</div>
                 <div className="text-sm text-gray-600">Horas</div>
               </div>
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">45</div>
+              <div className="bg-blue-50 rounded-lg p-4 w-24 text-center">
+                <div className="text-3xl font-bold text-blue-600">{timeRemaining.minutes}</div>
                 <div className="text-sm text-gray-600">Minutos</div>
+              </div>
+              <div className="bg-blue-50 rounded-lg p-4 w-24 text-center">
+                <div className="text-3xl font-bold text-blue-600">{timeRemaining.seconds}</div>
+                <div className="text-sm text-gray-600">Segundos</div>
               </div>
             </div>
           </div>
@@ -155,7 +179,7 @@ export default function Home() {
             </div>
             <div className="md:w-1/2">
               <img
-                src="/placeholder.svg?height=400&width=600"
+                src="/images/img1.jpg"
                 alt="Estudiantes presentando sus proyectos"
                 className="rounded-lg shadow-lg w-full"
               />
@@ -198,7 +222,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden border-none shadow-md">
+            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
               <div className="h-2 bg-purple-600"></div>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -221,14 +245,14 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden border-none shadow-md">
+            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
               <div className="h-2 bg-green-600"></div>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline">Día 3 - 22 Junio</Badge>
                   <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Premiación</Badge>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Premiación y Clausura</h3>
+                <h3 className="text-xl text-gray-800 font-bold mb-2">Premiación y Clausura</h3>
                 <p className="text-gray-600 mb-4">
                   Ceremonia de premiación a los mejores proyectos y clausura oficial de la exposición.
                 </p>
@@ -356,7 +380,7 @@ export default function Home() {
               <div className="bg-blue-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ingeniería en Sistemas Computacionales</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Ingeniería en Sistemas Computacionales</h3>
               <p className="text-gray-600 mb-4">
                 Proyectos de desarrollo de software, bases de datos, inteligencia artificial y más.
               </p>
@@ -376,9 +400,9 @@ export default function Home() {
               <div className="bg-purple-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ciencias Sociales</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Ciencia de Datos</h3>
               <p className="text-gray-600 mb-4">
-                Proyectos relacionados con ética, comunicación, impacto social de la tecnología y más.
+                Proyectos relacionados con análisis de datos, machine learning, etc.
               </p>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-500">18 proyectos</span>
@@ -396,7 +420,7 @@ export default function Home() {
               <div className="bg-green-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ciencias Básicas</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Inteligencia Artificial</h3>
               <p className="text-gray-600 mb-4">
                 Proyectos de matemáticas aplicadas, física computacional, algoritmos y más.
               </p>
