@@ -1,103 +1,26 @@
+"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { CalendarDays, Award, Users, MapPin, Clock, ChevronRight, ExternalLink, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react"
+import Header from "@/components/header"
+import Counter from "@/components/counter"
+import HeroSection from "@/components/hero-section"
 
 export default function Home() {
-  // Fecha de la expo (ejemplo)
-  const expoDate = new Date("2024-06-20T10:00:00")
-  const currentDate = new Date()
-  const timeRemaining = expoDate.getTime() - currentDate.getTime()
-  const daysRemaining = Math.max(0, Math.floor(timeRemaining / (1000 * 60 * 60 * 24)))
-
+  
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Award className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
-          </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="#acerca-de" className="text-gray-600 hover:text-blue-600 transition-colors">
-              Acerca de
-            </Link>
-            <Link href="#agenda" className="text-gray-600 hover:text-blue-600 transition-colors">
-              Agenda
-            </Link>
-            <Link href="#proyectos" className="text-gray-600 hover:text-blue-600 transition-colors">
-              Proyectos
-            </Link>
-            <Link href="#departamentos" className="text-gray-600 hover:text-blue-600 transition-colors">
-              Departamentos
-            </Link>
-            <Link href="#galeria" className="text-gray-600 hover:text-blue-600 transition-colors">
-              Galería
-            </Link>
-          </nav>
-          <div className="flex gap-4">
-            <Link href="/login">
-              <Button variant="outline">Iniciar Sesión</Button>
-            </Link>
-            <Link href="/register">
-              <Button>Registrarse</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
-            <Badge className="bg-blue-500 hover:bg-blue-500 mb-4">20-22 Junio 2024</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Exposición de Proyectos Escolares ESCOM</h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Descubre el talento y la innovación de nuestros estudiantes en la exposición anual de proyectos
-              académicos.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-                Registra tu Proyecto
-              </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
-                Ver Agenda Completa
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection/>
 
       {/* Countdown */}
-      <section className="bg-white py-10 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl font-bold text-gray-900">La exposición comienza en</h2>
-              <p className="text-gray-600">¡No te pierdas esta oportunidad de conocer proyectos innovadores!</p>
-            </div>
-            <div className="flex gap-4">
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">{daysRemaining}</div>
-                <div className="text-sm text-gray-600">Días</div>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">12</div>
-                <div className="text-sm text-gray-600">Horas</div>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-4 w-20 text-center">
-                <div className="text-3xl font-bold text-blue-600">45</div>
-                <div className="text-sm text-gray-600">Minutos</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Counter/>
 
       {/* Acerca de */}
       <section id="acerca-de" className="py-16 bg-gray-50">
@@ -155,7 +78,7 @@ export default function Home() {
             </div>
             <div className="md:w-1/2">
               <img
-                src="/placeholder.svg?height=400&width=600"
+                src="/images/img1.jpg"
                 alt="Estudiantes presentando sus proyectos"
                 className="rounded-lg shadow-lg w-full"
               />
@@ -179,7 +102,7 @@ export default function Home() {
               <div className="h-2 bg-blue-600"></div>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline">Día 1 - 20 Junio</Badge>
+                  <Badge variant="outline" className="text-gray-700">Día 1 - 20 Junio</Badge>
                   <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Exposición</Badge>
                 </div>
                 <h3 className="text-xl font-bold mb-2">Inauguración y Exposición de Proyectos</h3>
@@ -198,14 +121,14 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden border-none shadow-md">
+            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
               <div className="h-2 bg-purple-600"></div>
               <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline">Día 2 - 21 Junio</Badge>
+                <div className="flex  justify-between items-start mb-4">
+                  <Badge variant="outline" className="text-gray-700">Día 2 - 21 Junio</Badge>
                   <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">Conferencia</Badge>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Conferencia: Innovación Tecnológica</h3>
+                <h3 className="text-xl text-gray-800 font-bold mb-2">Conferencia: Innovación Tecnológica</h3>
                 <p className="text-gray-600 mb-4">
                   Conferencia magistral sobre las últimas tendencias en innovación tecnológica y su impacto en la
                   industria.
@@ -221,14 +144,14 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden border-none shadow-md">
+            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
               <div className="h-2 bg-green-600"></div>
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline">Día 3 - 22 Junio</Badge>
+                  <Badge variant="outline" className="text-gray-700">Día 3 - 22 Junio</Badge>
                   <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Premiación</Badge>
                 </div>
-                <h3 className="text-xl font-bold mb-2">Premiación y Clausura</h3>
+                <h3 className="text-xl text-gray-800 font-bold mb-2">Premiación y Clausura</h3>
                 <p className="text-gray-600 mb-4">
                   Ceremonia de premiación a los mejores proyectos y clausura oficial de la exposición.
                 </p>
@@ -356,7 +279,7 @@ export default function Home() {
               <div className="bg-blue-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ingeniería en Sistemas Computacionales</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Ingeniería en Sistemas Computacionales</h3>
               <p className="text-gray-600 mb-4">
                 Proyectos de desarrollo de software, bases de datos, inteligencia artificial y más.
               </p>
@@ -376,9 +299,9 @@ export default function Home() {
               <div className="bg-purple-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ciencias Sociales</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Ciencia de Datos</h3>
               <p className="text-gray-600 mb-4">
-                Proyectos relacionados con ética, comunicación, impacto social de la tecnología y más.
+                Proyectos relacionados con análisis de datos, machine learning, etc.
               </p>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-500">18 proyectos</span>
@@ -396,7 +319,7 @@ export default function Home() {
               <div className="bg-green-100 p-3 rounded-full w-fit mb-4">
                 <Award className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Ciencias Básicas</h3>
+              <h3 className="text-black text-xl font-bold mb-2">Inteligencia Artificial</h3>
               <p className="text-gray-600 mb-4">
                 Proyectos de matemáticas aplicadas, física computacional, algoritmos y más.
               </p>
