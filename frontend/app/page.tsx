@@ -8,6 +8,9 @@ import { useEffect, useState } from "react"
 import Header from "@/components/header"
 import Counter from "@/components/counter"
 import HeroSection from "@/components/hero-section"
+import AboutSection from "@/components/about-section"
+import AgendaDestacada from "@/components/agenda-destacada"
+import ProyectosDestacados from "@/components/proyectos-destacados"
 
 export default function Home() {
   
@@ -23,246 +26,13 @@ export default function Home() {
       <Counter/>
 
       {/* Acerca de */}
-      <section id="acerca-de" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold mb-6 text-gray-900">Acerca de la Expo ESCOM</h2>
-              <p className="text-lg text-gray-600 mb-4">
-                La Exposición de Proyectos Escolares de ESCOM es un evento anual que se celebra al final del primer
-                semestre, donde los estudiantes tienen la oportunidad de mostrar sus proyectos académicos desarrollados
-                durante el periodo.
-              </p>
-              <p className="text-lg text-gray-600 mb-6">
-                Este espacio permite valorar el esfuerzo y talento de nuestros estudiantes, además de fomentar la
-                interacción con la comunidad académica, empresas y visitantes externos.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <Award className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Proyectos Destacados</h3>
-                    <p className="text-gray-600 text-sm">Reconocimiento a los mejores trabajos</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <Users className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Networking</h3>
-                    <p className="text-gray-600 text-sm">Conexión con empresas y profesionales</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <CalendarDays className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Eventos Diversos</h3>
-                    <p className="text-gray-600 text-sm">Talleres, conferencias y actividades</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <MapPin className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">Múltiples Espacios</h3>
-                    <p className="text-gray-600 text-sm">Distribuidos por toda la escuela</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="md:w-1/2">
-              <img
-                src="/images/img1.jpg"
-                alt="Estudiantes presentando sus proyectos"
-                className="rounded-lg shadow-lg w-full"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutSection/>
 
       {/* Agenda Destacada */}
-      <section id="agenda" className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Agenda Destacada</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Conoce los eventos principales de nuestra exposición. ¡No te pierdas ninguna actividad!
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="overflow-hidden border-none shadow-md">
-              <div className="h-2 bg-blue-600"></div>
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="text-gray-700">Día 1 - 20 Junio</Badge>
-                  <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Exposición</Badge>
-                </div>
-                <h3 className="text-xl font-bold mb-2">Inauguración y Exposición de Proyectos</h3>
-                <p className="text-gray-600 mb-4">
-                  Apertura oficial de la exposición y presentación de proyectos de Ingeniería de Software y Bases de
-                  Datos.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                  <Clock className="h-4 w-4" />
-                  <span>10:30 - 18:00</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin className="h-4 w-4" />
-                  <span>Edificios 3 y 4</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
-              <div className="h-2 bg-purple-600"></div>
-              <CardContent className="p-6">
-                <div className="flex  justify-between items-start mb-4">
-                  <Badge variant="outline" className="text-gray-700">Día 2 - 21 Junio</Badge>
-                  <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">Conferencia</Badge>
-                </div>
-                <h3 className="text-xl text-gray-800 font-bold mb-2">Conferencia: Innovación Tecnológica</h3>
-                <p className="text-gray-600 mb-4">
-                  Conferencia magistral sobre las últimas tendencias en innovación tecnológica y su impacto en la
-                  industria.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                  <Clock className="h-4 w-4" />
-                  <span>12:00 - 14:00</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin className="h-4 w-4" />
-                  <span>Auditorio Principal</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-neutral-100 overflow-hidden border-none shadow-md">
-              <div className="h-2 bg-green-600"></div>
-              <CardContent className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="text-gray-700">Día 3 - 22 Junio</Badge>
-                  <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Premiación</Badge>
-                </div>
-                <h3 className="text-xl text-gray-800 font-bold mb-2">Premiación y Clausura</h3>
-                <p className="text-gray-600 mb-4">
-                  Ceremonia de premiación a los mejores proyectos y clausura oficial de la exposición.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                  <Clock className="h-4 w-4" />
-                  <span>16:00 - 18:00</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin className="h-4 w-4" />
-                  <span>Auditorio Principal</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-8">
-            <Link href="/dashboard/estudiante/agenda">
-              <Button variant="outline" className="gap-2">
-                Ver Agenda Completa
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <AgendaDestacada/>
 
       {/* Proyectos Destacados */}
-      <section id="proyectos" className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Proyectos Destacados</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Conoce algunos de los proyectos más innovadores de ediciones anteriores
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-video bg-gray-100 relative">
-                <img
-                  src="/placeholder.svg?height=200&width=400"
-                  alt="Sistema de Gestión Inteligente"
-                  className="w-full h-full object-cover"
-                />
-                <Badge className="absolute top-2 right-2">2023</Badge>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-2">Sistema de Gestión Inteligente</h3>
-                <p className="text-gray-600 mb-4">
-                  Plataforma que utiliza inteligencia artificial para optimizar procesos administrativos.
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-500">Ingeniería de Software</div>
-                  <Badge variant="outline">1er Lugar</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-video bg-gray-100 relative">
-                <img
-                  src="/placeholder.svg?height=200&width=400"
-                  alt="Aplicación de Realidad Aumentada"
-                  className="w-full h-full object-cover"
-                />
-                <Badge className="absolute top-2 right-2">2023</Badge>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-2">Aplicación de Realidad Aumentada</h3>
-                <p className="text-gray-600 mb-4">
-                  Aplicación educativa que utiliza realidad aumentada para enseñar conceptos complejos.
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-500">Desarrollo Móvil</div>
-                  <Badge variant="outline">2do Lugar</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-video bg-gray-100 relative">
-                <img
-                  src="/placeholder.svg?height=200&width=400"
-                  alt="Sistema de Seguridad Biométrica"
-                  className="w-full h-full object-cover"
-                />
-                <Badge className="absolute top-2 right-2">2023</Badge>
-              </div>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-2">Sistema de Seguridad Biométrica</h3>
-                <p className="text-gray-600 mb-4">
-                  Sistema de autenticación que combina múltiples factores biométricos para mayor seguridad.
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="text-sm text-gray-500">Criptografía</div>
-                  <Badge variant="outline">3er Lugar</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-10">
-            <Link href="/proyectos-anteriores">
-              <Button className="gap-2">
-                Explorar Más Proyectos
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <ProyectosDestacados/>
 
       {/* Departamentos */}
       <section id="departamentos" className="py-16 bg-blue-50">
@@ -505,7 +275,7 @@ export default function Home() {
             </Link>
             <Link href="/login">
               <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
-                Iniciar Sesión
+                Iniciar sesión
               </Button>
             </Link>
           </div>
@@ -567,7 +337,7 @@ export default function Home() {
               <ul className="space-y-2">
                 <li>
                   <Link href="/login" className="text-gray-400 hover:text-white transition-colors">
-                    Iniciar Sesión
+                    Iniciar sesión
                   </Link>
                 </li>
                 <li>
