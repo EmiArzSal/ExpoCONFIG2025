@@ -1,4 +1,10 @@
 import React from 'react'
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { CalendarDays, Award, Users, MapPin, Clock, ChevronRight, ExternalLink, ArrowRight } from "lucide-react"
+import { useEffect, useState } from "react"
 
 function ProyectosDestacados() {
   return (
