@@ -13,10 +13,10 @@ function Header() {
             <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="/pages/about" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link href="#about" className="text-gray-600 hover:text-blue-600 transition-colors">
               Acerca de
             </Link>
-            <Link href="/pages/agenda" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link href="#agenda" className="text-gray-600 hover:text-blue-600 transition-colors">
               Agenda
             </Link>
             <Link href="#proyectos" className="text-gray-600 hover:text-blue-600 transition-colors">
