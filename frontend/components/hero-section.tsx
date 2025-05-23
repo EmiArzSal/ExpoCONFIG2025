@@ -1,32 +1,57 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
+import { BackgroundGradientAnimation } from './ui/background-gradient-animation'
+import { TextGenerateEffect } from './ui/text-generate-effect';
+import { text } from 'stream/consumers';
+import { TypewriterEffect } from './ui/typewriter-effect';
 
 function HeroSection() {
+  const words = `Descubre el talento y la innovación de nuestros estudiantes en la exposición anual de proyectos académicos.`;
+  const words2 = [
+    {
+      text: 'Exposición'
+    },
+    {
+      text: 'de'
+    },
+    {
+      text: 'proyectos'
+    },
+    {
+      text: 'escolares'
+    },
+    {
+      text: 'ESCOM'
+    }
+  ]
   return (
-    <section className="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center"></div>
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
-            <Badge className="bg-blue-500 hover:bg-blue-500 mb-4">20-22 Junio 2024</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Exposición de Proyectos Escolares ESCOM</h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Descubre el talento y la innovación de nuestros estudiantes en la exposición anual de proyectos
-              académicos.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-                Registra tu Proyecto
-              </Button>
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
-                Ver Agenda Completa
-              </Button>
+    
+      <BackgroundGradientAnimation>
+        <section className="relative text-white py-20 overflow-hidden"> 
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0"></div>
+          </div>
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-3xl">
+              <Badge className="bg-blue-500 hover:bg-blue-500 mb-4">20-22 Junio 2024</Badge>              
+              <TypewriterEffect words={words2} className="text-6xl"/>
+
+              <TextGenerateEffect words={words} className="text-xl md:text-2xl mb-8 text-blue-100" duration={1.5}/>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+                  Registra tu Proyecto
+                </Button>
+                <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
+                  Ver Agenda Completa
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </BackgroundGradientAnimation>
+
   )
 }
 
