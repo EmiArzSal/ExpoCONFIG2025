@@ -1,11 +1,39 @@
 import React from 'react'
 import { Card, CardContent } from './ui/card'
+import { InfiniteMovingCards } from './ui/infinite-moving-cards'
 
 
 
 
 
 function Testimonios() {
+  const testimonials = [
+    {
+      name: "Enrique Cervantes",
+      title: "Estudiante IIA",
+      quote: "Participar en la Expo ESCOM fue una experiencia enriquecedora. Pudimos mostrar nuestro proyecto a otros estudiantes y profesores, recibiendo retroalimentación valiosa para mejorarlo."
+    },
+    {
+      name: "Lule Margarita",
+      title: "Jefa de departamento",
+      quote: "La exposición es una oportunidad única para que los estudiantes demuestren sus habilidades y conocimientos adquiridos durante el semestre. Es gratificante ver su crecimiento."
+    },
+    {
+      name: "Berenice Gutierrez",
+      title: "Estudiante ISC",
+      quote: "Nuestro proyecto quedó entre los primeros tres lugares, ¡estuvo padre! Además, la experiencia de presentar nuestro trabajo ante el jurado fue un gran aprendizaje."
+    },
+    {
+      name: "Iván Blanco",
+      title: "Profesor",
+      quote: "La Expo ESCOM permite a los estudiantes aplicar sus conocimientos en proyectos reales y desarrollar habilidades de trabajo en equipo. Es un espacio fundamental para su formación profesional."
+    },
+    {
+      name: "Reyna Abarca",
+      title: "Profesora",
+      quote: "Me impresiona el nivel de creatividad e innovación que presentan los alumnos cada año. La exposición fomenta el intercambio de ideas y el aprendizaje colaborativo."
+    }
+  ]
   return (
     <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -16,65 +44,11 @@ function Testimonios() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-gray-50">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                    <img src="/placeholder.svg?height=48&width=48" alt="Nacho" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Nacho</h3>
-                    <p className="text-sm text-gray-500">Estudiante</p>
-                  </div>
-                </div>
-                <p className="text-gray-600 italic">
-                  "Participar en la Expo ESCOM fue una experiencia enriquecedora. Pudimos mostrar nuestro proyecto a
-                  otros estudiantes y profesores, recibiendo retroalimentación valiosa para mejorarlo."
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gray-50">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                    <img
-                      src="/placeholder.svg?height=48&width=48"
-                      alt="Profesora Delia"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Profesora Delia</h3>
-                    <p className="text-sm text-gray-500">Jefe de Departamento</p>
-                  </div>
-                </div>
-                <p className="text-gray-600 italic">
-                  "La exposición es una oportunidad única para que los estudiantes demuestren sus habilidades y
-                  conocimientos adquiridos durante el semestre. Es gratificante ver su crecimiento."
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gray-50">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
-                    <img src="/placeholder.svg?height=48&width=48" alt="Belén" className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold">Belén</h3>
-                    <p className="text-sm text-gray-500">Estudiante</p>
-                  </div>
-                </div>
-                <p className="text-gray-600 italic">
-                  "Nuestro proyecto quedó entre los primeros tres lugares, ¡estuvo padre! Además, la experiencia de
-                  presentar nuestro trabajo ante el jurado fue un gran aprendizaje."
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          <InfiniteMovingCards
+        items={testimonials}
+        direction="right"
+        speed="slow"
+      />
         </div>
       </section>
   )
