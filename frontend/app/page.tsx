@@ -14,6 +14,7 @@ import ProyectosDestacados from "@/components/proyectos-destacados"
 import DepartmentSection from "@/components/departments"
 import Testimonios from "@/components/testimonios"
 import GallerySection from "@/components/gallery-section"
+import CiaSection from "@/components/cia-section"
 
 
 export default function Home() {
@@ -48,26 +49,7 @@ export default function Home() {
       <GallerySection/>
 
       {/* CTA */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">¿Listo para participar?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Registra tu proyecto y forma parte de la Expo ESCOM 2024. ¡Muestra tu talento al mundo!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
-                Registrarse
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
-                Iniciar sesión
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CiaSection/>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
