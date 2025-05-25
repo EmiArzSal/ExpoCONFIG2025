@@ -35,7 +35,7 @@ function HeroSection() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl">
               <Badge className="text-white bg-blue-500 hover:bg-blue-500 mb-4">20-22 Junio 2024</Badge>              
-              <TypewriterEffect words={words2} className="text-6xl mb-4 text-"/>
+              <TypewriterEffect words={words2} className="text-6xl mb-4 text-white"/>
 
               <TextGenerateEffect words={words} className="text-xl md:text-2xl mb-8 text-blue-100" duration={1.5}/>
 
@@ -43,7 +43,7 @@ function HeroSection() {
                 <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
                   Registra tu Proyecto
                 </Button>
-                <Button size="lg" variant="outline" className="bg-purple-600 border-none text-white border-white hover:bg-purple-700">
+                <Button size="lg" variant="outline" className="bg-purple-600 border-none text-white border-white hover:bg-purple-700 hover:bg-text-white">
                   Ver Agenda Completa
                 </Button>
               </div>
