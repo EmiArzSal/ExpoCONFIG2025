@@ -23,10 +23,28 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
 
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get("email")
+    const password = formData.get("password")
+
     // Simulación de login - en producción, esto se conectaría al backend de Spring Boot
     try {
-      // Aquí iría la llamada a la API de autenticación
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      
+      const response = await fetch("http://localhost:8080/api/auth/login",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          userType,
+        }),
+      })
+
+    if(!response.ok){
+      throw new Error("Credenciales incorrectas.")
+    }
 
       toast({
         title: "Inicio de sesión exitoso",
@@ -53,7 +71,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 to-white p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white p-4">
       <Link href="/" className="absolute top-4 left-4 flex items-center gap-1 text-blue-600 hover:underline">
         <ArrowLeft className="h-4 w-4" />
         Volver al inicio
@@ -64,44 +82,44 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold text-blue-600">EXPOConfig</h1>
       </div>
 
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white border-none">
         <CardHeader>
-          <CardTitle>Iniciar Sesión</CardTitle>
+          <CardTitle className="text-gray-800">Iniciar Sesión</CardTitle>
           <CardDescription>Ingresa tus credenciales para acceder al sistema</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="userType">Tipo de Usuario</Label>
+              <Label htmlFor="userType" className="text-gray-800">Tipo de Usuario</Label>
               <Select value={userType} onValueChange={setUserType}>
-                <SelectTrigger id="userType">
+                <SelectTrigger id="userType" className="bg-gray-100 border-none text-slate-500">
                   <SelectValue placeholder="Selecciona tu tipo de usuario" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="estudiante">Estudiante</SelectItem>
-                  <SelectItem value="profesor">Profesor</SelectItem>
-                  <SelectItem value="admin">Administrador</SelectItem>
+                <SelectContent className="bg-gray-100 border-none">
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="estudiante">Estudiante</SelectItem>
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="profesor">Profesor</SelectItem>
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="admin">Administrador</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Correo Electrónico</Label>
-              <Input id="email" type="email" placeholder="correo@ejemplo.com" required />
+              <Label htmlFor="email" className="text-gray-800">Correo Electrónico</Label>
+              <Input id="email" className="bg-gray-100 border-none text-slate-500" type="email" placeholder="correo@ejemplo.com" required />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input id="password" type="password" required />
+              <Label htmlFor="password" className="text-gray-800">Contraseña</Label>
+              <Input id="password" className="bg-gray-100 border-none text-slate-500" type="password" required />
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button type="submit" className="w-auto text-white" disabled={isLoading}>
               {isLoading ? "Iniciando sesión..." : "Iniciar Sesión"}
             </Button>
 
-            <div className="text-center text-sm">
+            <div className="text-center text-sm text-slate-500">
               ¿No tienes una cuenta?{" "}
               <Link href="/register" className="text-blue-600 hover:underline">
                 Regístrate

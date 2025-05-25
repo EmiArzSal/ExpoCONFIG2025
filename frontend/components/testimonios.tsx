@@ -48,6 +48,7 @@ function Testimonios() {
         items={testimonials}
         direction="right"
         speed="slow"
+        pauseOnHover={false}
       />
         </div>
       </section>

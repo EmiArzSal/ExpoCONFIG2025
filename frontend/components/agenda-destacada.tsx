@@ -92,7 +92,7 @@ function AgendaDestacada() {
     
               <div className="text-center mt-8">
                 <Link href="/dashboard/estudiante/agenda">
-                  <Button variant="outline" className="gap-2">
+                  <Button variant="outline" className="gap-2 bg-blue-700 text-white border-none hover:bg-blue-600">
                     Ver Agenda Completa
                     <ChevronRight className="h-4 w-4" />
                   </Button>
