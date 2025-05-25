@@ -35,7 +35,7 @@ public class EmailService {
 
         String htmlContent = "<p>Hello: <strong>" + name + "</strong>,</p>"
                 + "<p>Please confirm your email by clicking the link below:</p>"
-                + "<p><a href=\"" + frontendUrl + "/auth/confirm-account\">Confirm email</a></p>"
+                + "<p><a href=\"" + frontendUrl + "/auth/confirm-account?token=" + token + "\">Confirm email</a></p>"
                 + "<p>And use the following code: <b>" + token + "</b></p>"
                 + "<p>This token will expire in 1 hour.</p>";
 

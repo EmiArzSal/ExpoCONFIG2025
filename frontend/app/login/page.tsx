@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -11,26 +10,51 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 
 export default function LoginPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [userType, setUserType] = useState("estudiante")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  // Función de prueba para verificar que el toast funciona
+  const testToast = () => {
+    toast({
+      title: "Toast de prueba",
+      description: "Si ves este mensaje, el toast está funcionando correctamente",
+    })
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
 
-    const formData = new FormData(e.currentTarget)
-    const email = formData.get("email")
-    const password = formData.get("password")
+    // Validación básica
+    if (!email || !password) {
+      toast({
+        variant: "destructive",
+        title: "Campos requeridos",
+        description: "Por favor completa todos los campos",
+        duration: 3000,
+      })
+      setIsLoading(false)
+      return
+    }
 
-    // Simulación de login - en producción, esto se conectaría al backend de Spring Boot
+    // Mapeo del tipo de usuario para el backend
+    let userTypeBackend = userType
+    if (userType === "estudiante") userTypeBackend = "alumno"
+    if (userType === "profesor") userTypeBackend = "profesor"
+    if (userType === "admin") userTypeBackend = "admin"
+
+    console.log("Iniciando login con:", { email, userType: userTypeBackend }) // Debug log
+
     try {
-      
-      const response = await fetch("http://localhost:8080/api/auth/login",{
+      const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,32 +62,72 @@ export default function LoginPage() {
         body: JSON.stringify({
           email,
           password,
-          userType,
+          userType: userTypeBackend,
         }),
       })
 
-    if(!response.ok){
-      throw new Error("Credenciales incorrectas.")
-    }
+      const data = await response.json()
+      console.log("Respuesta del servidor:", data) // Debug log
+      console.log("Status de respuesta:", response.status) // Debug log
 
+      // Verificar si la cuenta no está confirmada
+      if (data.message && data.message.toLowerCase().includes("no confirmada")) {
+        console.log("Cuenta no confirmada detectada") // Debug log
+        toast({
+          variant: "destructive",
+          title: "Cuenta no confirmada",
+          description: data.message,
+          duration: 5000,
+        })
+        setIsLoading(false)
+        return
+      }
+
+      // Verificar si la respuesta no es exitosa
+      if (!response.ok) {
+        console.log("Error en la respuesta:", data.message) // Debug log
+        throw new Error(data.message || "Credenciales incorrectas.")
+      }
+
+      // Guardar token si existe
+      if (data.data) {
+        localStorage.setItem("token", data.data)
+        console.log("Token guardado en localStorage") // Debug log
+      }
+
+      console.log("Login exitoso, mostrando toast...") // Debug log
+
+      // Toast de éxito
       toast({
-        title: "Inicio de sesión exitoso",
-        description: "Bienvenido al sistema EXPOConfig",
+        title: "¡Inicio de sesión exitoso!",
+        description: "Bienvenido al sistema EXPOConfig. Redirigiendo...",
+        duration: 2000,
       })
 
-      // Redirigir según el tipo de usuario
+      // Determinar la ruta de redirección
+      let redirectPath = "/dashboard"
       if (userType === "estudiante") {
-        router.push("/dashboard/estudiante")
+        redirectPath = "/dashboard/estudiante"
       } else if (userType === "profesor") {
-        router.push("/dashboard/profesor")
+        redirectPath = "/dashboard/profesor"
       } else if (userType === "admin") {
-        router.push("/dashboard/admin")
+        redirectPath = "/dashboard/admin"
       }
+
+      console.log("Redirigiendo a:", redirectPath) // Debug log
+
+      // Redirección con un pequeño delay para mostrar el toast
+      setTimeout(() => {
+        router.push(redirectPath)
+      }, 2000)
     } catch (error) {
+      console.error("Error en el login:", error) // Debug log
+
       toast({
         variant: "destructive",
         title: "Error de inicio de sesión",
-        description: "Credenciales incorrectas. Intente nuevamente.",
+        description: error instanceof Error ? error.message : "Credenciales incorrectas. Intente nuevamente.",
+        duration: 5000,
       })
     } finally {
       setIsLoading(false)
@@ -90,27 +154,56 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="userType" className="text-gray-800">Tipo de Usuario</Label>
+              <Label htmlFor="userType" className="text-gray-800">
+                Tipo de Usuario
+              </Label>
               <Select value={userType} onValueChange={setUserType}>
                 <SelectTrigger id="userType" className="bg-gray-100 border-none text-slate-500">
                   <SelectValue placeholder="Selecciona tu tipo de usuario" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-100 border-none">
-                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="estudiante">Estudiante</SelectItem>
-                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="profesor">Profesor</SelectItem>
-                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="admin">Administrador</SelectItem>
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="estudiante">
+                    Estudiante
+                  </SelectItem>
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="profesor">
+                    Profesor
+                  </SelectItem>
+                  <SelectItem className="bg-gray-100 border-none text-slate-500" value="admin">
+                    Administrador
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-800">Correo Electrónico</Label>
-              <Input id="email" className="bg-gray-100 border-none text-slate-500" type="email" placeholder="correo@ejemplo.com" required />
+              <Label htmlFor="email" className="text-gray-800">
+                Correo Electrónico
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                className="bg-gray-100 border-none text-slate-500"
+                type="email"
+                placeholder="correo@ejemplo.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-800">Contraseña</Label>
-              <Input id="password" className="bg-gray-100 border-none text-slate-500" type="password" required />
+              <Label htmlFor="password" className="text-gray-800">
+                Contraseña
+              </Label>
+              <Input
+                id="password"
+                name="password"
+                className="bg-gray-100 border-none text-slate-500"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
           </CardContent>
 
@@ -128,6 +221,9 @@ export default function LoginPage() {
           </CardFooter>
         </form>
       </Card>
+
+      {/* Asegúrate de que el Toaster esté presente */}
+      <Toaster />
     </div>
   )
 }

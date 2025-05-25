@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -11,7 +10,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -30,49 +30,72 @@ export default function RegisterPage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulación de registro - en producción, esto se conectaría al backend de Spring Boot
-    try {
-      const response = await fetch("http://localhost:8080/api/auth/create-account", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nombreCompleto: name,
-        email,
-        password,
-        passwordConfirm: confirmPassword,
-        role: userType === "estudiante" ? "alumno" : "profesor",
-        group: userType === "estudiante" ? group : undefined,
-        boleta: userType === "estudiante" ? studentId : undefined,
-        department: userType === "profesor" ? department : undefined,
-      }),
-    })
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Error en el registro")
+    // Validación básica antes de enviar
+    if (password !== confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Error de validación",
+        description: "Las contraseñas no coinciden",
+      })
+      setIsLoading(false)
+      return
     }
 
-    toast({
-      title: "Registro exitoso",
-      description: "Tu cuenta ha sido creada correctamente",
-    })
+    try {
+      console.log("Iniciando registro...") // Debug log
 
-    setTimeout(() => {
-    router.push("/login")
-    }, 3500)
+      const response = await fetch("http://localhost:8080/api/auth/create-account", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nombreCompleto: name,
+          email,
+          password,
+          passwordConfirm: confirmPassword,
+          role: userType === "estudiante" ? "alumno" : "profesor",
+          group: userType === "estudiante" ? group : undefined,
+          boleta: userType === "estudiante" ? studentId : undefined,
+          department: userType === "profesor" ? department : undefined,
+        }),
+      })
+
+      const data = await response.json()
+      console.log("Respuesta del servidor:", data) // Debug log
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error en el registro")
+      }
+
+      console.log("Mostrando toast de éxito...") // Debug log
+
+      // Toast de éxito
+      toast({
+        title: "¡Registro exitoso!",
+        description: "Tu cuenta ha sido creada correctamente.",
+        duration: 3000,
+      })
+
+      // Esperar un poco antes de redirigir
+      setTimeout(() => {
+        router.push("/login")
+      }, 3000)
     } catch (error) {
-    toast({
-      variant: "destructive",
-      title: "Error de registro",
-      description: "No se pudo completar el registro. Intente nuevamente.",
-    })
-  } finally {
-    setIsLoading(false)
+      console.error("Error en el registro:", error) // Debug log
+
+      toast({
+        variant: "destructive",
+        title: "Error de registro",
+        description: error instanceof Error ? error.message : "No se pudo completar el registro. Intente nuevamente.",
+        duration: 5000,
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
-}
+
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white p-4">
@@ -94,74 +117,145 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="userType" className="text-gray-800">Tipo de Usuario</Label>
+              <Label htmlFor="userType" className="text-gray-800">
+                Tipo de Usuario
+              </Label>
               <Select value={userType} onValueChange={setUserType}>
                 <SelectTrigger id="userType" className="bg-gray-100 border-none text-slate-500">
                   <SelectValue placeholder="Selecciona tu tipo de usuario" />
                 </SelectTrigger>
                 <SelectContent className="bg-gray-100 border-none">
-                  <SelectItem value="estudiante" className="bg-gray-100 border-none text-slate-500">Estudiante</SelectItem>
-                  <SelectItem value="profesor" className="bg-gray-100 border-none text-slate-500">Profesor</SelectItem>
+                  <SelectItem value="estudiante" className="bg-gray-100 border-none text-slate-500">
+                    Estudiante
+                  </SelectItem>
+                  <SelectItem value="profesor" className="bg-gray-100 border-none text-slate-500">
+                    Profesor
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-gray-800">Nombre Completo</Label>
-              <Input id="name" type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Nombre Completo" className="bg-gray-100 border-none text-slate-500" required  />
+              <Label htmlFor="name" className="text-gray-800">
+                Nombre Completo
+              </Label>
+              <Input
+                id="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nombre Completo"
+                className="bg-gray-100 border-none text-slate-500"
+                required
+              />
             </div>
 
             {userType === "estudiante" && (
               <div className="space-y-2">
-                <Label htmlFor="studentId" className="text-gray-800">Número de Boleta</Label>
-                <Input id="studentId" type="text" value={studentId} onChange={e => setStudentId(e.target.value)} className="bg-gray-100 border-none text-slate-500" placeholder="Ej: 2020630123" required />
+                <Label htmlFor="studentId" className="text-gray-800">
+                  Número de Boleta
+                </Label>
+                <Input
+                  id="studentId"
+                  type="text"
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
+                  className="bg-gray-100 border-none text-slate-500"
+                  placeholder="Ej: 2020630123"
+                  required
+                />
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-800">Correo Electrónico</Label>
-              <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-100 border-none text-slate-500" placeholder="correo@ejemplo.com" required />
+              <Label htmlFor="email" className="text-gray-800">
+                Correo Electrónico
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-gray-100 border-none text-slate-500"
+                placeholder="correo@ejemplo.com"
+                required
+              />
             </div>
 
             {userType === "estudiante" && (
               <div className="space-y-2">
-                <Label htmlFor="group" className="text-gray-800">Grupo</Label>
-                <Input id="group" type="text" value={group} onChange={e => setGroup(e.target.value)} className="bg-gray-100 border-none text-slate-500" placeholder="Ej: 3CM1" required />
+                <Label htmlFor="group" className="text-gray-800">
+                  Grupo
+                </Label>
+                <Input
+                  id="group"
+                  type="text"
+                  value={group}
+                  onChange={(e) => setGroup(e.target.value)}
+                  className="bg-gray-100 border-none text-slate-500"
+                  placeholder="Ej: 3CM1"
+                  required
+                />
               </div>
             )}
 
             {userType === "profesor" && (
               <div className="space-y-2">
-                <Label htmlFor="department" className="text-gray-800">Departamento</Label>
-                <Select defaultValue="isc" value={department} onValueChange={setDepartment}>
+                <Label htmlFor="department" className="text-gray-800">
+                  Departamento
+                </Label>
+                <Select value={department} onValueChange={setDepartment}>
                   <SelectTrigger id="department" className="bg-gray-100 border-none text-slate-500">
-                    <SelectValue className="bg-gray-100 border-none text-slate-500" placeholder="Selecciona tu departamento" />
+                    <SelectValue placeholder="Selecciona tu departamento" />
                   </SelectTrigger>
                   <SelectContent className="bg-gray-100 border-none">
-                    <SelectItem value="isc" className="bg-gray-100 border-none text-slate-500">Ingeniería en Sistemas Computacionales</SelectItem>
-                    <SelectItem value="social" className="bg-gray-100 border-none text-slate-500">Ingeniería en Inteligencia Artificial</SelectItem>
-                    <SelectItem value="basic" className="bg-gray-100 border-none text-slate-500">Licenciatura en Ciencia de Datos</SelectItem>
+                    <SelectItem value="isc" className="bg-gray-100 border-none text-slate-500">
+                      Ingeniería en Sistemas Computacionales
+                    </SelectItem>
+                    <SelectItem value="ia" className="bg-gray-100 border-none text-slate-500">
+                      Ingeniería en Inteligencia Artificial
+                    </SelectItem>
+                    <SelectItem value="lcd" className="bg-gray-100 border-none text-slate-500">
+                      Licenciatura en Ciencia de Datos
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-800">Contraseña</Label>
-              <Input id="password" className="bg-gray-100 border-none text-slate-500" type="password" value={password}
-              onChange={e => setPassword(e.target.value)} required />
+              <Label htmlFor="password" className="text-gray-800">
+                Contraseña
+              </Label>
+              <Input
+                id="password"
+                className="bg-gray-100 border-none text-slate-500"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-gray-800">Confirmar Contraseña</Label>
-              <Input id="confirmPassword" className="bg-gray-100 border-none text-slate-500" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+              <Label htmlFor="confirmPassword" className="text-gray-800">
+                Confirmar Contraseña
+              </Label>
+              <Input
+                id="confirmPassword"
+                className="bg-gray-100 border-none text-slate-500"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
             </div>
           </CardContent>
 
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-auto text-white" disabled={isLoading}>
               {isLoading ? "Registrando..." : "Registrarse"}
-            </Button> 
+            </Button>
 
             <div className="text-center text-sm text-slate-500">
               ¿Ya tienes una cuenta?{" "}
@@ -172,6 +266,9 @@ export default function RegisterPage() {
           </CardFooter>
         </form>
       </Card>
+
+      {/* Asegúrate de que el Toaster esté presente */}
+      <Toaster />
     </div>
   )
 }

@@ -122,6 +122,11 @@ public class AuthService {
             return new ApiResponse<>(false, "Tipo de usuario incorrecto", null);
         }
 
+        // Verifica que el tipo de usuario coincida
+        if (userExist.getRole() == null || !userExist.getRole().equalsIgnoreCase(request.getUserType())) {
+            return new ApiResponse<>(false, "Tipo de usuario incorrecto", null);
+        }
+
         // Verifica si la cuenta está confirmada
         if (!userExist.getConfirmed()) {
             Token token = new Token();
