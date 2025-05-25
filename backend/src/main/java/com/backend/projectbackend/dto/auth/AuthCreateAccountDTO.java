@@ -12,10 +12,9 @@ public class AuthCreateAccountDTO {
     @Email(message = "Email not valid")
     private String email;
 
-    @NotBlank(message = "Username required")
-    @Size(min = 3, message = "Username must be at least 3 characters")
-    @Size(max = 20, message = "Username must be shorter than 20 characters")
-    private String username;
+    @NotBlank(message = "Name required")
+    @Size(max = 50, message = "El nombre del alumno debe de tener máximo 50 caracteres")
+    private String nombreCompleto;
 
     @NotBlank(message = "Password required")
     @Size(min = 8, message = "Password must be at least 8 characters")
@@ -25,24 +24,46 @@ public class AuthCreateAccountDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String passwordConfirm;
 
-    public AuthCreateAccountDTO() {}
+    @NotBlank(message = "Role required")
+    private String role;
 
-    public AuthCreateAccountDTO(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+    @NotBlank(message = "Group required")
+    @Size(min = 5, max = 5, message = "El grupo debe de tener minimo 5 caracteres")
+    private String group;
+    
+    @NotBlank(message = "Department required")
+    private String department;
+    
+    @NotBlank(message = "Student ID required")
+    @Size(min = 10, max = 10, message = "La boleta debe de tener mínimo 10 caracteres")
+    private String boleta;
+
+
+    public AuthCreateAccountDTO() {}
 
     //Setters and getters
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getNombreCompleto() { return nombreCompleto; }
+    public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
     public String getPasswordConfirm() { return passwordConfirm; }
     public void setPasswordConfirm(String passwordConfirm) { this.passwordConfirm = passwordConfirm; }
+
+    public String getRole(){ return role; }
+    public void setRole(String  role) { this.role = role; }
+
+    public String getGroup(){ return group; }
+    public void setGroup(String group){ this.group = group; }
+
+    public String getDepartment(){ return department; }
+    public void setDepartamento(String department){ this.department = department; }
+
+    public String getBoleta(){ return boleta; }
+    public void setBoleta(String boleta){ this.boleta = boleta; }
 }
+

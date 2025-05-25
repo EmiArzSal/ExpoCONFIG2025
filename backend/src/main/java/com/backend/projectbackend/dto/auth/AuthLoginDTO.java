@@ -12,12 +12,14 @@ public class AuthLoginDTO {
     @NotBlank
     @Size(min = 8)
     private String password;
+    private String userType;
 
     public AuthLoginDTO() {}
 
-    public AuthLoginDTO(String email, String password) {
+    public AuthLoginDTO(String email, String password, String userType) {
         this.email = email;
         this.password = password;
+        this.userType = userType;
     }
 
     public String getEmail() { return email; }
@@ -25,4 +27,7 @@ public class AuthLoginDTO {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getUserType(){ return userType; }
+    public void setUserType(String userType){ this.userType = userType; }
 }

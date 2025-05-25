@@ -16,10 +16,21 @@ public class User {
     @MongoId
     private ObjectId id;
 
-    private String username;
+    @NotBlank
+    private String nombreCompleto;
+
+    private String role; 
 
     @NotBlank
     private String password;
+
+    @NotBlank
+    private String group;
+
+    private String department;
+
+    @NotBlank
+    private String boleta;
 
     @Email
     @NotBlank
@@ -40,9 +51,13 @@ public class User {
 
     public User() {}
 
-    public User(String username, String password, String email, String token, Boolean confirmed,Boolean admin) {
-        this.username = username;
+    public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String role, String group, String boleta, String department) {
+        this.nombreCompleto = nombreCompleto;
         this.password = password;
+        this.role = role;
+        this.department = department;
+        this.group = group;
+        this.boleta = boleta;
         this.email = email;
         this.confirmed = confirmed;
         this.admin = admin;
@@ -55,8 +70,8 @@ public class User {
     public ObjectId getId() { return id; }
     public void setId(ObjectId id) { this.id = id; }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public String getNombreCompleto() { return nombreCompleto; }
+    public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
@@ -79,11 +94,31 @@ public class User {
     public List<Friend> getFriends() { return friends; }
     public void setFriends(List<Friend> friends) { this.friends = friends; }
 
+    public String getRole(){ return role; }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getBoleta(){ return boleta; }
+    public void setBoleta(String boleta) {
+        this.boleta = boleta;
+    }
+
+    public String getGroup(){ return group; }
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getDepartment(){ return department; }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
                 ", email='" + email + '\'' +
                 ", confirmed=" + confirmed +
                 '}';

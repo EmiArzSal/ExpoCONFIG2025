@@ -13,6 +13,7 @@ import com.backend.projectbackend.util.token.JwtUtil;
 import com.backend.projectbackend.util.token.TokenGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 
 @Service
@@ -31,16 +32,38 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
+    
     public ApiResponse<String> createAccount(AuthCreateAccountDTO request) {
         if (authRepository.existsByEmail(request.getEmail())) {
             return new ApiResponse<>(false, "El correo ya está registrado.", null);
+        }
+
+            // Validación según el rol
+        if (request.getRole().equalsIgnoreCase("alumno")) {
+            if (request.getGroup() == null || request.getBoleta() == null) {
+                return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
+            }
+        }
+        if (request.getRole().equalsIgnoreCase("profesor")) {
+            if (request.getDepartment() == null) {
+                return new ApiResponse<>(false, "Falta el departamento.", null);
+            }
         }
 
         try {
             User user = new User();
             user.setEmail(request.getEmail());
             user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setUsername(request.getUsername());
+            user.setNombreCompleto(request.getNombreCompleto());
+            user.setRole(request.getRole());
+
+            // Solo para alumno
+            user.setGroup(request.getGroup());
+            user.setBoleta(request.getBoleta());
+
+            // Solo para profesor
+            user.setDepartment(request.getDepartment());
+
 
             authRepository.save(user);
 
@@ -53,13 +76,13 @@ public class AuthService {
 
             emailService.sendConfirmationEmail(
                     user.getEmail(),
-                    user.getUsername(),
+                    user.getNombreCompleto(),
                     token.getTokenValue()
             );
-            return new ApiResponse<>(true, "We sent you a confirmation email.", null);
+            return new ApiResponse<>(true, "Te enviamos un correo de confirmación.", null);
         } catch (Exception e) {
             e.printStackTrace(); // Puedes registrar con un logger en vez de imprimir
-            return new ApiResponse<>(false, "Internal server error: " + e.getMessage(), null);
+            return new ApiResponse<>(false, "Error interno del servidor: " + e.getMessage(), null);
         }
     }
 
@@ -86,37 +109,47 @@ public class AuthService {
     }
 
     public ApiResponse<String> login(AuthLoginDTO request) {
-        try{
-            User userExist = authRepository.findByEmail(request.getEmail()).get();
-            if (userExist == null) {
-                return new ApiResponse<>(false, "Invalid credentials", null);
-            }
-
-            if(userExist.getConfirmed() == false) {
-                Token token = new Token();
-                String generatedToken = TokenGenerator.generateToken();
-                token.setTokenValue(generatedToken);
-                token.setUserId(userExist.getId());
-                emailService.sendConfirmationEmail(
-                        userExist.getEmail(),
-                        userExist.getUsername(),
-                        token.getTokenValue()
-                );
-                tokenRepository.save(token);
-                return new ApiResponse<>(false, "Account not confirmed, check your email", null);
-            }
-
-            if(userExist.getPassword().equals(passwordEncoder.encode(request.getPassword()))) {
-                return new ApiResponse<>(false, "Wront credentials", null);
-            }
-
-            String token = jwtUtil.generateToken(userExist.getId().toString(), userExist.getAdmin() );
-            return new ApiResponse<>(true, "Hi!", token);
-        } catch (Exception e){
-            e.printStackTrace();
-            return new ApiResponse<>(false, "Internal server error: " + e.getMessage(), null);
+    try {
+        // Busca el usuario por email
+        Optional<User> userOpt = authRepository.findByEmail(request.getEmail());
+        if (userOpt.isEmpty()) {
+            return new ApiResponse<>(false, "Usuario no encontrado", null);
         }
+        User userExist = userOpt.get();
+
+        // Verifica que el tipo de usuario coincida
+        if (userExist.getRole() == null || !userExist.getRole().equalsIgnoreCase(request.getUserType())) {
+            return new ApiResponse<>(false, "Tipo de usuario incorrecto", null);
+        }
+
+        // Verifica si la cuenta está confirmada
+        if (!userExist.getConfirmed()) {
+            Token token = new Token();
+            String generatedToken = TokenGenerator.generateToken();
+            token.setTokenValue(generatedToken);
+            token.setUserId(userExist.getId());
+            emailService.sendConfirmationEmail(
+                    userExist.getEmail(),
+                    userExist.getNombreCompleto(),
+                    token.getTokenValue()
+            );
+            tokenRepository.save(token);
+            return new ApiResponse<>(false, "Cuenta no confirmada, revisa tu correo", null);
+        }
+
+        // Verifica la contraseña correctamente
+        if (!passwordEncoder.matches(request.getPassword(), userExist.getPassword())) {
+            return new ApiResponse<>(false, "Contraseña incorrecta", null);
+        }
+
+        // Genera el token (o la respuesta que uses)
+        String token = jwtUtil.generateToken(userExist.getId().toString(), userExist.getAdmin());
+        return new ApiResponse<>(true, "¡Bienvenido!", token);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ApiResponse<>(false, "Error interno del servidor: " + e.getMessage(), null);
     }
+}
 
     public ApiResponse<String> requestCode(RequestCodeDTO request) {
         try{
@@ -139,7 +172,7 @@ public class AuthService {
 
             emailService.sendConfirmationEmail(
                     userExists.getEmail(),
-                    userExists.getUsername(),
+                    userExists.getNombreCompleto(),
                     token.getTokenValue()
             );
 
@@ -166,7 +199,7 @@ public class AuthService {
 
             emailService.sendResetPasswordEmail(
                     userExists.getEmail(),
-                    userExists.getUsername(),
+                    userExists.getNombreCompleto(),
                     token.getTokenValue()
             );
             return new ApiResponse<>(true, "Check your email to reset your password", null);
