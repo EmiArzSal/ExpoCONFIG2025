@@ -42,6 +42,58 @@ export default function RegisterPage() {
       return
     }
 
+    //Validación contraseña de más de 8 caracteres
+    if (password.length < 8) {
+      toast({
+        variant: "destructive",
+        title: "Contraseña insegura",
+        description: "Debe tener al menos 8 caracteres",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    // Validación de boleta de 10 caracteres numéricos
+    if (userType === "estudiante") {
+      const trimmedStudentId = studentId.trim()
+      const boletaRegex = /^20\d{8}$/
+
+      if (!boletaRegex.test(trimmedStudentId)) {
+        toast({
+          variant: "destructive",
+          title: "Boleta inválida",
+          description: "El formato de la boleta es inválido. Debe comenzar con '20' y tener exactamente 10 dígitos numéricos.",
+        })
+        setIsLoading(false)
+        return
+      }
+    }
+
+    // Validación de grupo no vacío
+    if (userType === "profesor" && (!department || department.trim() === "")) {
+      toast({
+        variant: "destructive",
+        title: "Departamento requerido",
+        description: "Por favor selecciona tu departamento.",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    //Validación del grupo
+    const trimmedGroup = group.trim().toUpperCase()
+    const grupoGeneralRegex = /^[1-8][ABCS][MVX](?:[1-9]|1[0-9]|2[0-5])$/
+    if (!grupoGeneralRegex.test(trimmedGroup)) {
+      toast({
+        variant: "destructive",
+        title: "Grupo inválido",
+        description: "El grupo no está registrado como válido en el sistema.",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    
     try {
       console.log("Iniciando registro...") // Debug log
 
@@ -66,8 +118,37 @@ export default function RegisterPage() {
       console.log("Respuesta del servidor:", data) // Debug log
 
       if (!response.ok) {
-        throw new Error(data.message || "Error en el registro")
+        const mensaje = data.message?.toLowerCase() || ""
+
+        if (mensaje.includes("boleta")) {
+          toast({
+            variant: "destructive",
+            title: "Boleta duplicada",
+            description: "Ya existe un usuario registrado con ese número de boleta.",
+          })
+          setIsLoading(false)
+          return
+        }
+
+        if (mensaje.includes("correo") || mensaje.includes("email")) {
+          toast({
+            variant: "destructive",
+            title: "Correo duplicado",
+            description: "Ya existe una cuenta registrada con ese correo electrónico.",
+          })
+          setIsLoading(false)
+          return
+        }
+
+        toast({
+          variant: "destructive",
+          title: "Error en el registro",
+          description: data.message || "Ocurrió un error al registrar la cuenta.",
+        })
+        setIsLoading(false)
+        return
       }
+
 
       console.log("Mostrando toast de éxito...") // Debug log
 

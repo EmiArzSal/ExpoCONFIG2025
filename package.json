@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "motion": "^12.12.2",
+    "tailwind-merge": "^3.3.0"
+  }
+}
