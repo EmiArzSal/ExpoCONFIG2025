@@ -43,6 +43,9 @@ public class AuthService {
             if (request.getGroup() == null || request.getBoleta() == null) {
                 return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
             }
+            if (authRepository.existsByBoleta(request.getBoleta())) {
+                return new ApiResponse<>(false, "La boleta ya está registrada.", null);
+            }
         }
         if (request.getRole().equalsIgnoreCase("profesor")) {
             if (request.getDepartment() == null) {
@@ -144,7 +147,7 @@ public class AuthService {
 
         // Verifica la contraseña correctamente
         if (!passwordEncoder.matches(request.getPassword(), userExist.getPassword())) {
-            return new ApiResponse<>(false, "Contraseña incorrecta", null);
+            return new ApiResponse<>(false, "Password incorrecto", null);
         }
 
         // Genera el token (o la respuesta que uses)
