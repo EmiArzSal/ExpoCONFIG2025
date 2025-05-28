@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Award, ArrowLeft } from "lucide-react"
+import { Award, ArrowLeft, Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,14 +20,7 @@ export default function LoginPage() {
   const [userType, setUserType] = useState("estudiante")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-
-  // Función de prueba para verificar que el toast funciona
-  const testToast = () => {
-    toast({
-      title: "Toast de prueba",
-      description: "Si ves este mensaje, el toast está funcionando correctamente",
-    })
-  }
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -195,15 +188,26 @@ export default function LoginPage() {
               <Label htmlFor="password" className="text-gray-800">
                 Contraseña
               </Label>
-              <Input
-                id="password"
-                name="password"
-                className="bg-gray-100 border-none text-slate-500"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  className="bg-gray-100 border-none text-slate-500 pr-10"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
           </CardContent>
 
@@ -221,8 +225,6 @@ export default function LoginPage() {
           </CardFooter>
         </form>
       </Card>
-
-      {/* Asegúrate de que el Toaster esté presente */}
       <Toaster />
     </div>
   )
