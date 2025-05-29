@@ -8,16 +8,16 @@ function CiaSection() {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">¿Listo para participar?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Registra tu proyecto y forma parte de la Expo ESCOM 2024. ¡Muestra tu talento al mundo!
+            Registra tu proyecto y forma parte de la Expo ESCOM 2025. ¡Muestra tu talento al mundo!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+              <Button size="lg" className="bg-black text-white hover:bg-blue-800">
                 Registrarse
               </Button>
             </Link>
             <Link href="/login">
-              <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
+              <Button size="lg" className="bg-black text-white hover:bg-blue-800">
                 Iniciar sesión
               </Button>
             </Link>
