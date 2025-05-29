@@ -21,11 +21,11 @@ function ProyectosDestacados() {
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="aspect-video bg-gray-100 relative">
                 <img
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/proy01.png?height=200&width=400"
                   alt="Sistema de Gestión Inteligente"
                   className="w-full h-full object-cover"
                 />
-                <Badge className="absolute top-2 right-2">2023</Badge>
+                <Badge className="absolute top-2 right-2">2024</Badge>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Sistema de Gestión Inteligente</h3>
@@ -42,11 +42,11 @@ function ProyectosDestacados() {
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="aspect-video bg-gray-100 relative">
                 <img
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/proy02.jpg?height=200&width=400"
                   alt="Aplicación de Realidad Aumentada"
                   className="w-full h-full object-cover"
                 />
-                <Badge className="absolute top-2 right-2">2023</Badge>
+                <Badge className="absolute top-2 right-2">2024</Badge>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Aplicación de Realidad Aumentada</h3>
@@ -63,11 +63,11 @@ function ProyectosDestacados() {
             <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="aspect-video bg-gray-100 relative">
                 <img
-                  src="/placeholder.svg?height=200&width=400"
+                  src="/images/proy03.png?height=200&width=400"
                   alt="Sistema de Seguridad Biométrica"
                   className="w-full h-full object-cover"
                 />
-                <Badge className="absolute top-2 right-2">2023</Badge>
+                <Badge className="absolute top-2 right-2">2024</Badge>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Sistema de Seguridad Biométrica</h3>
@@ -84,7 +84,7 @@ function ProyectosDestacados() {
 
           <div className="text-center mt-10">
             <Link href="/proyectos-anteriores">
-              <Button className="gap-2">
+              <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
                 Explorar Más Proyectos
                 <ArrowRight className="h-4 w-4" />
               </Button>

@@ -17,57 +17,57 @@ function GallerySection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2023"
+                src="/images/gallery01.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2023"
+                src="/images/gallery02.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2023"
+                src="/images/gallery03.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2023"
+                src="/images/gallery04.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2022"
+                src="/images/gallery05.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2022"
+                src="/images/gallery06.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2022"
+                src="/images/gallery07.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src="/placeholder.svg?height=300&width=300"
-                alt="Exposición 2022"
+                src="/images/gallery08.jpg?height=300&width=300"
+                alt="Exposición 2024"
                 className="w-full h-full object-cover hover:scale-105 transition-transform"
               />
             </div>
@@ -75,7 +75,7 @@ function GallerySection() {
 
           <div className="text-center mt-8">
             <Link href="/galeria">
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
                 Ver Más Fotos
                 <ChevronRight className="h-4 w-4" />
               </Button>
