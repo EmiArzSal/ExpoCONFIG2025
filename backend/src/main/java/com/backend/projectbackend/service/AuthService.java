@@ -43,6 +43,9 @@ public class AuthService {
             if (request.getGroup() == null || request.getBoleta() == null) {
                 return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
             }
+            if (authRepository.existsByBoleta(request.getBoleta())) {
+                return new ApiResponse<>(false, "La boleta ya está registrada.", null);
+            }
         }
         if (request.getRole().equalsIgnoreCase("profesor")) {
             if (request.getDepartment() == null) {
@@ -144,7 +147,7 @@ public class AuthService {
 
         // Verifica la contraseña correctamente
         if (!passwordEncoder.matches(request.getPassword(), userExist.getPassword())) {
-            return new ApiResponse<>(false, "Contraseña incorrecta", null);
+            return new ApiResponse<>(false, "Password incorrecto", null);
         }
 
         // Genera el token (o la respuesta que uses)
@@ -160,11 +163,11 @@ public class AuthService {
         try{
             User userExists = authRepository.findByEmail(request.getEmail()).get();
             if (userExists == null) {
-                return new ApiResponse<>(false, "User not found", null);
+                return new ApiResponse<>(false, "Usuario no encontrado", null);
             }
 
             if(userExists.getConfirmed() == true) {
-                return new ApiResponse<>(false, "Email already confirmed", null);
+                return new ApiResponse<>(false, "El correo ya está confirmado", null);
             }
 
             Token token = new Token();
@@ -192,7 +195,7 @@ public class AuthService {
         try{
             User userExists = authRepository.findByEmail(request.getEmail()).get();
             if (userExists == null) {
-                return new ApiResponse<>(false, "User not found", null);
+                return new ApiResponse<>(false, "Usuario no encontrado", null);
             }
             Token token = new Token();
             String generatedToken = TokenGenerator.generateToken();
@@ -207,7 +210,7 @@ public class AuthService {
                     userExists.getNombreCompleto(),
                     token.getTokenValue()
             );
-            return new ApiResponse<>(true, "Check your email to reset your password", null);
+            return new ApiResponse<>(true, "Revisa tu correo para restablecer tu contraseña", null);
         }catch (Exception e){
             e.printStackTrace();
             return new ApiResponse<>(false, "Internal server error: " + e.getMessage(), null);
@@ -234,7 +237,7 @@ public class AuthService {
                 return new ApiResponse<>(false, "Invalid token", null);
             }
             if (!request.getNewPassword().equals(request.getConfirmPassword())) {
-                return new ApiResponse<>(false, "Passwords do not match", null);
+                return new ApiResponse<>(false, "Las contraseñas no coinciden", null);
             }
 
             User user = authRepository.findById(tokenExists.getUserId()).get();
