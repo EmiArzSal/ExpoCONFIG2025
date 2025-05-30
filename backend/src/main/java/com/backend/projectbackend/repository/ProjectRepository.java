@@ -14,5 +14,5 @@ public interface ProjectRepository extends MongoRepository<Project, String> {
   List<Project> findByIntegrantesIn(List<String> integrantes);
   List<Project> findByGroupAndProfessorName(String group, String professorName);
   List<Project> findByProfessorName(String professorName);
-  List<Project> findByFechaRegistroBetween(Date startDate, Date endDate);
+  List<Project> findByRegisterDateBetween(Date startDate, Date endDate);
 }

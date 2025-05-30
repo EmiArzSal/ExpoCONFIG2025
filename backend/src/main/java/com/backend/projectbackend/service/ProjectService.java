@@ -64,8 +64,8 @@ public class ProjectService {
   public List<Project> getProjectsByProfessorName(String professorName) {
     return projectRepository.findByProfessorName(professorName);
   }
-  public List<Project> getProjectsByFechaRegistroBetween(Date startDate, Date endDate) {
-    return projectRepository.findByFechaRegistroBetween(startDate, endDate);
+  public List<Project> getProjectsByRegisterDateBetween(Date startDate, Date endDate) {
+    return projectRepository.findByRegisterDateBetween(startDate, endDate);
   }
   public Page<Project> getProjectsPage(Pageable pageable) {
     return projectRepository.findAll(pageable);
