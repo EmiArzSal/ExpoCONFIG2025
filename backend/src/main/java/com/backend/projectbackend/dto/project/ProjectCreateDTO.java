@@ -43,6 +43,10 @@ public class ProjectCreateDTO {
     @NotBlank(message = "Register date is required")
     private Date registerDate;
 
+
+    private String documentUrl; // URL del documento del proyecto
+
+
     public ProjectCreateDTO() {
         this.title = "";
         this.group = "";
@@ -50,8 +54,8 @@ public class ProjectCreateDTO {
         this.career = "";
         this.subject = "";
         this.integrantes = new ArrayList<>();
-        this.owner = "";
         this.professorName = "";
+        this.documentUrl = "";
         this.registerDate = new Date();
     }
 
@@ -123,17 +127,26 @@ public class ProjectCreateDTO {
     public void setRegisterDate(Date registerDate){
         this.registerDate = registerDate;
     }
+
+    public String getDocumentUrl() {
+        return documentUrl;
+    }
+
+    public void setDocumentUrl(String documentUrl) {
+        this.documentUrl = documentUrl;
+    }
+
     @Override
     public String toString() {
         return "ProjectCreateDTO{" +
                 "title='" + title + '\'' +
-                ", owner='" + owner + '\'' +
-                ", integrantes=" + integrantes +
                 ", group='" + group + '\'' +
-                ", professorName='" + professorName + '\'' +
                 ", description='" + description + '\'' +
                 ", career='" + career + '\'' +
                 ", subject='" + subject + '\'' +
+                ", integrantes=" + integrantes +
+                ", professorName='" + professorName + '\'' +
+                ", documentUrl='" + documentUrl + '\'' +
                 ", registerDate=" + registerDate +
                 '}';
     }

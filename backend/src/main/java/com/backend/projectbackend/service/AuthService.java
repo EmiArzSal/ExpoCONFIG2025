@@ -39,7 +39,7 @@ public class AuthService {
         }
 
             // Validación según el rol
-        if (request.getRole().equalsIgnoreCase("alumno")) {
+        if (request.getUserType().equalsIgnoreCase("alumno")) {
             if (request.getGroup() == null || request.getBoleta() == null) {
                 return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
             }
@@ -47,10 +47,11 @@ public class AuthService {
                 return new ApiResponse<>(false, "La boleta ya está registrada.", null);
             }
         }
-        if (request.getRole().equalsIgnoreCase("profesor")) {
+        if (request.getUserType().equalsIgnoreCase("profesor")) {
             if (request.getDepartment() == null) {
                 return new ApiResponse<>(false, "Falta el departamento.", null);
             }
+
         }
 
         try {
@@ -58,7 +59,7 @@ public class AuthService {
             user.setEmail(request.getEmail());
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setNombreCompleto(request.getNombreCompleto());
-            user.setRole(request.getRole());
+            user.setUserType(request.getUserType());
 
             // Solo para alumno
             user.setGroup(request.getGroup());
@@ -121,12 +122,7 @@ public class AuthService {
         User userExist = userOpt.get();
 
         // Verifica que el tipo de usuario coincida
-        if (userExist.getRole() == null || !userExist.getRole().equalsIgnoreCase(request.getUserType())) {
-            return new ApiResponse<>(false, "Tipo de usuario incorrecto", null);
-        }
-
-        // Verifica que el tipo de usuario coincida
-        if (userExist.getRole() == null || !userExist.getRole().equalsIgnoreCase(request.getUserType())) {
+        if (userExist.getUserType() == null || !userExist.getUserType().equalsIgnoreCase(request.getUserType())) {
             return new ApiResponse<>(false, "Tipo de usuario incorrecto", null);
         }
 
