@@ -24,8 +24,8 @@ public class AuthCreateAccountDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String passwordConfirm;
 
-    @NotBlank(message = "Role required")
-    private String role;
+    @NotBlank(message = "User type required")
+    private String userType;
 
     @NotBlank(message = "Group required")
     @Size(min = 5, max = 5, message = "El grupo debe de tener minimo 5 caracteres")
@@ -54,8 +54,8 @@ public class AuthCreateAccountDTO {
     public String getPasswordConfirm() { return passwordConfirm; }
     public void setPasswordConfirm(String passwordConfirm) { this.passwordConfirm = passwordConfirm; }
 
-    public String getRole(){ return role; }
-    public void setRole(String  role) { this.role = role; }
+    public String getUserType(){ return userType; }
+    public void setUserType(String  userType) { this.userType = userType; }
 
     public String getGroup(){ return group; }
     public void setGroup(String group){ this.group = group; }
@@ -65,5 +65,19 @@ public class AuthCreateAccountDTO {
 
     public String getBoleta(){ return boleta; }
     public void setBoleta(String boleta){ this.boleta = boleta; }
+
+    @Override
+    public String toString() {
+        return "AuthCreateAccountDTO{" +
+                "email='" + email + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", userType='" + userType + '\'' +
+                ", group='" + group + '\'' +
+                ", department='" + department + '\'' +
+                ", boleta='" + boleta + '\'' +
+                '}';
+    }
 }
 

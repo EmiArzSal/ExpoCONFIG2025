@@ -4,12 +4,8 @@ package com.backend.projectbackend.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Document(collection = "users")
 public class User {
@@ -19,7 +15,8 @@ public class User {
     @NotBlank
     private String nombreCompleto;
 
-    private String role; 
+    @NotBlank
+    private String userType;
 
     @NotBlank
     private String password;
@@ -39,31 +36,18 @@ public class User {
     private Boolean confirmed = false; //Agregar valor por default
     private Boolean admin = false;
 
-    //Defined routines by the user and used as a template to the training session
-    @DBRef
-    private List<Routine> routines;
-
-    @DBRef
-    private List<TrainingSession> trainings;
-
-    @DBRef
-    private List<Friend> friends;
-
     public User() {}
 
-    public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String role, String group, String boleta, String department) {
+    public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String userType, String group, String boleta, String department) {
         this.nombreCompleto = nombreCompleto;
         this.password = password;
-        this.role = role;
+        this.userType = userType;
         this.department = department;
         this.group = group;
         this.boleta = boleta;
         this.email = email;
         this.confirmed = confirmed;
         this.admin = admin;
-        this.routines = new ArrayList<>();
-        this.trainings = new ArrayList<>();
-        this.friends = new ArrayList<>();
     }
 
     //Getters and setters
@@ -85,18 +69,9 @@ public class User {
     public Boolean getAdmin() { return admin; }
     public void setAdmin(Boolean admin) { this.admin = admin; }
 
-    public List<Routine> getRoutines() { return routines; }
-    public void setRoutines(List<Routine> routines) { this.routines = routines; }
-
-    public List<TrainingSession> getTrainings() { return trainings; }
-    public void setTrainings(List<TrainingSession> trainings) {}
-
-    public List<Friend> getFriends() { return friends; }
-    public void setFriends(List<Friend> friends) { this.friends = friends; }
-
-    public String getRole(){ return role; }
-    public void setRole(String role) {
-        this.role = role;
+    public String getUserType(){ return userType; }
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public String getBoleta(){ return boleta; }
@@ -118,6 +93,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", userType='" + userType + '\'' +
                 ", nombreCompleto='" + nombreCompleto + '\'' +
                 ", email='" + email + '\'' +
                 ", confirmed=" + confirmed +

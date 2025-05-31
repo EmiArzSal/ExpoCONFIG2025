@@ -12,26 +12,24 @@ public class ProjectResponseDTO {
     private String description;
     private String career;
     private String subject;
-    private String owner; // Puede ser el id o el nombre del alumno
     private List<String> integrantes;
     private String professorName; // o profesorName si prefieres mostrar el nombre
     private String documentUrl;
     private String status;
-    private String feedback;
+    private List<FeedbackDTO> feedback;
     private Date registerDate;
 
     // Constructor vacío
     public ProjectResponseDTO() {}
 
     // Constructor con todos los campos
-    public ProjectResponseDTO(ObjectId id, String title, String group, String description, String career, String subject, String owner, List<String> integrantes, String professorName, String documentUrl, String status, String feedback, Date registerDate) {
+    public ProjectResponseDTO(ObjectId id, String title, String group, String description, String career, String subject, List<String> integrantes, String professorName, String documentUrl, String status, List<FeedbackDTO> feedback, Date registerDate) {
         this.id = id;
         this.title = title;
         this.group = group;
         this.description = description;
         this.career = career;
         this.subject = subject;
-        this.owner = owner;
         this.integrantes = integrantes;
         this.professorName = professorName;
         this.documentUrl = documentUrl;
@@ -59,9 +57,6 @@ public class ProjectResponseDTO {
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }
 
-    public String getOwner() { return owner; }
-    public void setOwner(String owner) { this.owner = owner; }
-
     public List<String> getIntegrantes() { return integrantes; }
     public void setIntegrantes(List<String> integrantes) { this.integrantes = integrantes; }
 
@@ -74,8 +69,8 @@ public class ProjectResponseDTO {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public String getFeedback() { return feedback; }
-    public void setFeedback(String feedback) { this.feedback = feedback; }
+    public List<FeedbackDTO> getFeedback() { return feedback; }
+    public void setFeedback(List<FeedbackDTO> feedback) { this.feedback = feedback; }
 
     public Date getRegisterDate() { return registerDate; }
     public void setRegisterDate(Date registerDate) { this.registerDate = registerDate; }
