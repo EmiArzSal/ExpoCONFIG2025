@@ -72,37 +72,39 @@ public class ProjectController {
     // 3. Crear proyecto
     @PreAuthorize("isAuthenticated()")
     @PostMapping
-    public ResponseEntity<ProjectResponseDTO> createProject(@Valid @RequestBody ProjectCreateDTO projectCreateDTO, Authentication authentication) {
+    public ResponseEntity<?> createProject(@Valid @RequestBody ProjectCreateDTO projectCreateDTO, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         if (!"PROFESOR".equalsIgnoreCase(user.getUserType())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action. Only professors can create projects.", null));
         }
         Project project = projectService.createProject(projectCreateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(convertToDTO(project));
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ApiResponse<>(true, "Project created successfully", convertToDTO(project))
+        );
     }
 
     // 4. Actualizar proyecto
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> updateProject(@PathVariable ObjectId id, @Valid @RequestBody ProjectCreateDTO projectCreateDTO) {
+    public ResponseEntity<?> updateProject(@PathVariable ObjectId id, @Valid @RequestBody ProjectCreateDTO projectCreateDTO) {
         Project project = projectService.updateProject(id, projectCreateDTO);
         if (project != null) {
-            return ResponseEntity.ok(convertToDTO(project));
+            return ResponseEntity.ok(new ApiResponse<>(true, "Project updated successfully", convertToDTO(project)));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Projects not found", null));
         }
     }
 
     // 5. Eliminar proyecto
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProject(@PathVariable ObjectId id, Authentication authentication) {
+    public ResponseEntity<?> deleteProject(@PathVariable ObjectId id, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         if (!"PROFESOR".equalsIgnoreCase(user.getUserType()) && !"ADMIN".equalsIgnoreCase(user.getUserType())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action", null));
         }       
         if (projectService.deleteProjectById(id)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(new ApiResponse<>(true, "Project deleted successfully", null));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Project not found", null));
         }
     }
 
@@ -124,39 +126,39 @@ public class ProjectController {
 
     // 7. Acciones de estado
     @PutMapping("/{id}/accept")
-    public ResponseEntity<ProjectResponseDTO> acceptProject(@PathVariable ObjectId id, Authentication authentication) {
+    public ResponseEntity<?> acceptProject(@PathVariable ObjectId id, Authentication authentication) {
     User user = (User) authentication.getPrincipal();
     if (!"PROFESOR".equalsIgnoreCase(user.getUserType())) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action. Only professors can accept projects.", null));
     }
     Project project = projectService.acceptProject(id);
-    return ResponseEntity.ok(convertToDTO(project));
-}
+    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, "Project accepted successfully", convertToDTO(project)));
+}   
 
     @PutMapping("/{id}/reject")
-    public ResponseEntity<ProjectResponseDTO> rejectProject(
+    public ResponseEntity<?> rejectProject(
         @PathVariable ObjectId id,
         @RequestBody Map<String, String> request,
         Authentication authentication) {
     User user = (User) authentication.getPrincipal();
-    if (!"PROFESOR".equalsIgnoreCase(user.getUserType())) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    if (!"PROFESOR".equalsIgnoreCase(user.getUserType()) || !"ADMIN".equalsIgnoreCase(user.getUserType())) {    
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action. Only professors and admin can reject projects.", null));
     }
     String feedback = request.get("feedback");
     Project project = projectService.rejectProject(id, feedback, request.get("professorName"));
     if (project == null) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Project not found", null));
     }
-    return ResponseEntity.ok(convertToDTO(project));
+    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, "Project rejected successfully", convertToDTO(project)));
 }
     @PutMapping("/{id}/feedback")
-    public ResponseEntity<ProjectResponseDTO> giveFeedback(
+    public ResponseEntity<?> giveFeedback(
         @PathVariable ObjectId id,
         @RequestBody FeedbackDTO feedback,
         Authentication authentication) {
     User user = (User) authentication.getPrincipal();
     if (!"PROFESOR".equalsIgnoreCase(user.getUserType())) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action. Only professors can give feedback.", null));
     }
     Project project = projectService.getProjectById(id).orElseThrow();
     if(project.getFeedback() == null ){
@@ -164,7 +166,7 @@ public class ProjectController {
     }
     project.getFeedback().add(feedback);
     projectService.updateProject(id, convertToCreateDTO(project));
-    return ResponseEntity.ok(convertToDTO(project));
+    return ResponseEntity.ok(new ApiResponse<>(true, "Feedback given successfully", convertToDTO(project)));
 }
 
     // 8. Paginación (opcional)
@@ -175,15 +177,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectDTOsPage);
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/test-auth")
-    public ResponseEntity<String> testAuth(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof com.backend.projectbackend.model.User user) {
-            return ResponseEntity.ok("userType: " + user.getUserType());
-        }
-        return ResponseEntity.ok("Principal class: " + principal.getClass().getName());
-    }
 
     // 9. Estadísticas para dashboard
     @GetMapping("/dashboard/stats")
@@ -203,16 +196,16 @@ public class ProjectController {
 
     // 10. Proyectos del profesor autenticado (opcional)
     @GetMapping("/my-projects")
-    public ResponseEntity<List<ProjectResponseDTO>> getMyProjects(Authentication authentication) {
+    public ResponseEntity<?> getMyProjects(Authentication authentication) {
     User user = (User) authentication.getPrincipal();
     if (!"PROFESOR".equalsIgnoreCase(user.getUserType())) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiResponse<>(false, "Unauthorized action. Only professors can view their projects.", null));
     }
     List<Project> projects = projectService.getProjectsByProfessorName(user.getNombreCompleto());
     List<ProjectResponseDTO> projectDTOs = projects.stream()
             .map(this::convertToDTO)
             .collect(Collectors.toList());
-    return ResponseEntity.ok(projectDTOs);
+    return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, "Projects retrieved successfully", projectDTOs));
 }
 
 
