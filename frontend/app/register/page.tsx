@@ -83,7 +83,7 @@ export default function RegisterPage() {
     //Validación del grupo
     const trimmedGroup = group.trim().toUpperCase()
     const grupoGeneralRegex = /^[1-8][ABCS][MVX](?:[1-9]|1[0-9]|2[0-5])$/
-    if (!grupoGeneralRegex.test(trimmedGroup)) {
+    if (!grupoGeneralRegex.test(trimmedGroup) && userType === "estudiante") {
       toast({
         variant: "destructive",
         title: "Grupo inválido",
@@ -107,7 +107,7 @@ export default function RegisterPage() {
           email,
           password,
           passwordConfirm: confirmPassword,
-          role: userType === "estudiante" ? "alumno" : "profesor",
+          userType: userType === "estudiante" ? "alumno" : "profesor",
           group: userType === "estudiante" ? group : undefined,
           boleta: userType === "estudiante" ? studentId : undefined,
           department: userType === "profesor" ? department : undefined,
@@ -309,7 +309,7 @@ export default function RegisterPage() {
               <Label htmlFor="password" className="text-gray-800">
                 Contraseña
               </Label>
-              <div>
+              <div className="relative">
                 <Input
                   id="password"
                   name="password"
@@ -336,14 +336,25 @@ export default function RegisterPage() {
               <Label htmlFor="confirmPassword" className="text-gray-800">
                 Confirmar Contraseña
               </Label>
-              <Input
-                id="confirmPassword"
-                className="bg-gray-100 border-none text-slate-500"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  className="bg-gray-100 border-none text-slate-500"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600"
+                    tabIndex={-1}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
+                  </button>
+                </div>
             </div>
           </CardContent>
 

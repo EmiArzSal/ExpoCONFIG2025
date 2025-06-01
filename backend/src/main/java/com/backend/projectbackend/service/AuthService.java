@@ -39,7 +39,7 @@ public class AuthService {
         }
 
             // Validación según el rol
-        if (request.getUserType().equalsIgnoreCase("alumno")) {
+        if (request.getUserType().equalsIgnoreCase("estudiante")) {
             if (request.getGroup() == null || request.getBoleta() == null) {
                 return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
             }
