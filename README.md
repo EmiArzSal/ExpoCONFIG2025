@@ -35,3 +35,39 @@ Crea un archivo `.env` en la carpeta `backend` (o utiliza `application.propertie
 ```ini
 SPRING_DATA_MONGODB_URI=tu_uri_de_mongodb
 ```
+## 3. Instala dependencias
+
+### Backend
+   ```sh
+      cd backend
+      ./mvnw install
+   ```
+
+### Frontend
+   ```sh
+      cd frontend
+      npm install
+   ```
+
+## 4. Ejecuta la aplicación
+
+### Backend
+   ```sh
+      cd backend
+      ./mvnw spring-boot:run
+   ```
+### Frontend
+   ```sh
+      cd frontend
+      npm run dev
+   ```
+## Autor
+
+
+## 🤝 Contribuciones
+¡Las contribuciones son bienvenidas! Por favor, abre issues, pull requests o sugiere nuevas funcionalidades.
+
+## 📋 Licencia
+Este proyecto está bajo la licencia MIT.
+
+
