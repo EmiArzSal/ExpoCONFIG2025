@@ -26,7 +26,7 @@ Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local:
 ## 1. Clona el repositorio:
    ```sh
    git clone https://github.com/EmiArzSal/ExpoCONFIG2025.git
-
+```
 ## 2. Configura las variables de entorno
 
 ### Backend
@@ -34,3 +34,4 @@ Sigue estos pasos para clonar y ejecutar el proyecto en tu máquina local:
 Crea un archivo `.env` en la carpeta `backend` (o utiliza `application.properties` si prefieres) e incluye la URI de tu base de datos MongoDB Atlas:
 ```ini
 SPRING_DATA_MONGODB_URI=tu_uri_de_mongodb
+```
