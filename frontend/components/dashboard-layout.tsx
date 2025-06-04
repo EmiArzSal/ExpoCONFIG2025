@@ -58,6 +58,12 @@ export function DashboardLayout({ children, userType }: DashboardLayoutProps) {
       roles: ["profesor", "admin"],
     },
     {
+      title: "Usuarios",
+      href: `/dashboard/${userType}/usuarios`,
+      icon: Users,
+      roles: ["admin"],
+    },
+    {
       title: "Configuración",
       href: `/dashboard/${userType}/configuracion`,
       icon: Settings,

@@ -26,4 +26,6 @@ public class UserDTO {
 
     public boolean isAdmin() { return isAdmin; }
     public void setAdmin(boolean admin) { this.isAdmin = admin; }
+
+
 }
