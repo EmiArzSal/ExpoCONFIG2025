@@ -246,10 +246,10 @@ export default function AdminDashboard() {
                   Ver Todos los Proyectos
                 </Button>
               </Link>
-              <Link href="/dashboard/admin/participantes">
+              <Link href="/dashboard/admin/usuarios">
                 <Button variant="outline" className="w-full justify-start">
                   <Users className="h-4 w-4 mr-2" />
-                  Gestionar Participantes
+                  Gestionar Usuarios
                 </Button>
               </Link>
               <Link href="/dashboard/admin/evaluaciones">
