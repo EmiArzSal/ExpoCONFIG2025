@@ -22,11 +22,24 @@ public class AuthController {
     private final AuthService authService;
     private final com.backend.projectbackend.repository.AuthRepository authRepository;
 
+    /**
+     * Constructs an AuthController with the specified authentication service and authentication repository dependencies.
+     */
     public AuthController(AuthService authService, com.backend.projectbackend.repository.AuthRepository authRepository) {
         this.authService = authService;
         this.authRepository = authRepository;
     }
 
+    /****
+     * Handles user account creation requests.
+     *
+     * Accepts a validated account creation request and delegates to the authentication service to create a new user account. Returns HTTP 201 with a success message on successful creation, or HTTP 400 with an error message if account creation fails.
+     *
+     * @param request the account creation details
+     * @return HTTP 201 with success message, or HTTP 400 with error message
+     * @throws MessagingException if an error occurs while sending confirmation email
+     * @throws UnsupportedEncodingException if encoding is not supported during email processing
+     */
     @PostMapping("/create-account")
     public ResponseEntity<ApiResponse<String>> createAccount(@Valid @RequestBody AuthCreateAccountDTO request) throws MessagingException, UnsupportedEncodingException {
         ApiResponse<String> response = authService.createAccount(request);
@@ -81,6 +94,14 @@ public class AuthController {
         return ResponseEntity.status(201).body(response);
     }
 
+    /**
+     * Validates an account confirmation token.
+     *
+     * @param request the account confirmation data containing the token to validate
+     * @return HTTP 201 with a success message if the token is valid, or HTTP 400 with an error message if invalid
+     * @throws MessagingException if an error occurs during messaging operations
+     * @throws UnsupportedEncodingException if encoding is not supported during processing
+     */
     @PostMapping("/validate-token")
     public ResponseEntity<ApiResponse<String>> validateToken(@Valid @RequestBody AuthConfirmAccountDTO request) throws MessagingException, UnsupportedEncodingException {
         ApiResponse<String> response = authService.validateToken(request);
@@ -90,6 +111,13 @@ public class AuthController {
         return ResponseEntity.status(201).body(response);
     }
 
+    /**
+     * Creates a new admin account.
+     *
+     * Handles POST requests to "/create-admin" and requires ADMIN authority. Accepts a validated admin account creation request and returns a response indicating success or failure.
+     *
+     * @return HTTP 201 with success message if the admin account is created, or HTTP 400 with error details on failure.
+     */
     @PostMapping("/create-admin")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse<String>> createAdmin(@Valid @RequestBody AuthCreateAccountDTO request) {
@@ -100,12 +128,23 @@ public class AuthController {
         return ResponseEntity.status(201).body(response);
     }
 
+    /**
+     * Retrieves information about the currently authenticated user.
+     *
+     * @param authentication the authentication context containing the user's principal
+     * @return a ResponseEntity containing a UserDTO representation of the authenticated user
+     */
     @GetMapping("/user")
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(new UserDTO(user));
     }
 
+    /**
+     * Retrieves a list of all admin users.
+     *
+     * @return a response entity containing a map with the key "admins" and a list of UserDTOs representing admin users
+     */
     @GetMapping("/admins")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getAllAdmins() {
@@ -115,6 +154,14 @@ public class AuthController {
     return ResponseEntity.ok(Map.of("admins", adminDTOs));
     }
 
+    /**
+     * Deletes an admin user by their unique identifier.
+     *
+     * Only users with ADMIN authority can access this endpoint. Returns a success or failure response based on whether the admin user was deleted.
+     *
+     * @param id the unique identifier of the admin user to delete
+     * @return a response entity containing the result of the deletion operation
+     */
     @DeleteMapping("/delete-admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse<String>> deleteAdmin(@PathVariable String id) {

@@ -15,6 +15,11 @@ interface Admin {
   email: string,
 }
 
+/**
+ * Displays an administrative interface for managing admin users, allowing creation, listing, and deletion of administrators.
+ *
+ * Provides a dashboard page where admins can view all current administrators, add new ones via a modal form, and remove existing admins. Integrates with backend API endpoints for data persistence and uses toast notifications for user feedback.
+ */
 export default function AdminsPage() {
   const [admins, setAdmins] = useState<Admin[]>([])
   const [showDialog, setShowDialog] = useState(false)

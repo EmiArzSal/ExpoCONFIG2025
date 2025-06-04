@@ -35,6 +35,14 @@ public class AuthService {
     }
 
     
+    /**
+     * Creates a new user account for either a student or professor, performing role-specific validation and sending a confirmation email.
+     *
+     * Validates required fields and checks for duplicate email, boleta, or employee number as appropriate for the user type. Upon successful creation, generates a confirmation token and sends a confirmation email to the user.
+     *
+     * @param request the account creation details, including user type and relevant fields
+     * @return an ApiResponse indicating success or failure, with an appropriate message
+     */
     public ApiResponse<String> createAccount(AuthCreateAccountDTO request) {
         if (authRepository.existsByEmail(request.getEmail())) {
             return new ApiResponse<>(false, "El correo ya está registrado.", null);
@@ -102,6 +110,14 @@ public class AuthService {
         }
     }
 
+    /**
+     * Confirms a user account using a provided confirmation token.
+     *
+     * Validates the token, marks the associated user as confirmed, deletes the token, and returns a response indicating success or failure.
+     *
+     * @param request the confirmation token request containing the token value
+     * @return an ApiResponse indicating whether the account was successfully confirmed or the reason for failure
+     */
     public ApiResponse<String> confirmAccount(AuthConfirmAccountDTO request) {
         try{
             Token tokenExists = tokenRepository.findByTokenValue(request.getToken());
@@ -238,6 +254,16 @@ public class AuthService {
         }
     }
 
+    /**
+     * Updates a user's password using a valid reset token.
+     *
+     * Validates the provided token and ensures the new password matches its confirmation.
+     * If successful, updates the user's password and invalidates the token.
+     *
+     * @param token the password reset token
+     * @param request contains the new password and its confirmation
+     * @return an ApiResponse indicating success or failure of the password update
+     */
     public ApiResponse<String> updatePassword(String token, UpdatePasswordDTO request) {
         try{
             Token tokenExists = tokenRepository.findByTokenValue(token);
@@ -260,6 +286,14 @@ public class AuthService {
         }
     }
 
+    /**
+     * Creates a new administrator account with the provided details.
+     *
+     * The account is marked as confirmed and assigned administrator privileges upon creation.
+     *
+     * @param request the account creation details for the administrator
+     * @return an ApiResponse indicating success or failure with a relevant message
+     */
     public ApiResponse<String> createAdminAccount(AuthCreateAccountDTO request) {
         // Verifica si ya existe un usuario con ese email
         if (authRepository.existsByEmail(request.getEmail())) {
@@ -283,10 +317,24 @@ public class AuthService {
         return new ApiResponse<>(true, "Administrador creado exitosamente.", null);
     }
 
+    /**
+     * Retrieves all users with the admin role.
+     *
+     * @return a list of users whose userType is "ADMIN"
+     */
     public List<User> getAllAdmins() {
         return authRepository.findByUserTypeIgnoreCase("ADMIN");
     }
 
+    /**
+     * Updates the details of an existing administrator account by ID.
+     *
+     * If the user with the specified ID exists and is an administrator, updates their name, email, password, and confirmation status.
+     *
+     * @param id the unique identifier of the administrator to update
+     * @param request the new account details for the administrator
+     * @return an ApiResponse indicating success or failure with a relevant message
+     */
     public ApiResponse<String> updateAdminAccount(String id, AuthCreateAccountDTO request) {
         try {
             Optional<User> userOptional = authRepository.findById(new org.bson.types.ObjectId(id));
@@ -313,6 +361,12 @@ public class AuthService {
         }
     }
 
+    /**
+     * Deletes an administrator user by their ID.
+     *
+     * @param id the unique identifier of the administrator to delete
+     * @return an ApiResponse indicating success or failure with a relevant message
+     */
     public ApiResponse<String> deleteAdminById(String id) {
         try {
             Optional<User> userOptional = authRepository.findById(new org.bson.types.ObjectId(id));

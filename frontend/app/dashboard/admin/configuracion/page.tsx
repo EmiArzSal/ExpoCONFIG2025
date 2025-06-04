@@ -18,6 +18,13 @@ import {
   Database,
 } from "lucide-react"
 
+/**
+ * Renders the administrative configuration dashboard page for system management.
+ *
+ * Displays quick statistics, configuration sections, quick action buttons, and system information for administrators. Each configuration section provides access to specific management areas such as users, departments, subjects, professors, and events.
+ *
+ * @returns The admin configuration dashboard React component.
+ */
 export default function ConfiguracionAdmin() {
   const configuraciones = [
     {

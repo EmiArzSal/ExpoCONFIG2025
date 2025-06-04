@@ -40,8 +40,26 @@ public class User {
     private String numeroEmpleado;
 
 
-    public User() {}
+    /**
+ * Creates a new User instance with default values.
+ */
+public User() {}
 
+    /**
+     * Constructs a User instance with the specified details.
+     *
+     * @param nombreCompleto the user's full name
+     * @param password the user's password
+     * @param email the user's email address
+     * @param token unused parameter
+     * @param confirmed whether the user's account is confirmed
+     * @param admin whether the user has admin privileges
+     * @param userType the type of user
+     * @param group the user's group
+     * @param boleta the user's identifier
+     * @param department the user's department
+     * @param numeroEmpleado the user's employee number
+     */
     public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String userType, String group, String boleta, String department, String numeroEmpleado) {
         this.nombreCompleto = nombreCompleto;
         this.password = password;
@@ -64,11 +82,31 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    /**
+ * Returns the user's email address.
+ *
+ * @return the email associated with the user
+ */
+public String getEmail() { return email; }
+    /**
+ * Sets the user's email address.
+ *
+ * @param email the email address to assign to the user
+ */
+public void setEmail(String email) { this.email = email; }
 
-    public Boolean getAdmin() { return admin; }
-    public void setAdmin(Boolean admin) { this.admin = admin; }
+    /**
+ * Returns whether the user has administrative privileges.
+ *
+ * @return true if the user is an admin, false otherwise
+ */
+public Boolean getAdmin() { return admin; }
+    /**
+ * Sets the admin status of the user.
+ *
+ * @param admin true if the user is an admin, false otherwise
+ */
+public void setAdmin(Boolean admin) { this.admin = admin; }
 
     public String getUserType(){ return userType; }
     public void setUserType(String userType) {
@@ -86,26 +124,54 @@ public class User {
     }
 
     public String getDepartment(){ return department; }
+    /****
+     * Sets the department associated with the user.
+     *
+     * @param department the department to assign to the user
+     */
     public void setDepartment(String department) {
         this.department = department;
     }
-    // Método para obtener el estado de confirmación
+    /**
+     * Sets the confirmation status of the user.
+     *
+     * @param confirmed true if the user is confirmed; false otherwise
+     */
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
     }
-    // Método para confirmar el usuario
+    /**
+     * Returns the confirmation status of the user.
+     *
+     * @return true if the user is confirmed; false otherwise
+     */
     public Boolean getConfirmed() {
         return confirmed;
     }
+    /**
+     * Returns the employee number associated with the user.
+     *
+     * @return the user's employee number
+     */
     public String getNumeroEmpleado() {
         return numeroEmpleado;
     }
 
+    /****
+     * Sets the employee number for the user.
+     *
+     * @param numeroEmpleado the employee number to assign
+     */
     public void setNumeroEmpleado(String numeroEmpleado) {
         this.numeroEmpleado = numeroEmpleado;
     }
 
-    @Override
+    /****
+             * Returns a string representation of the User object, including id, userType, nombreCompleto, email, and confirmed status.
+             *
+             * @return a string summarizing key User fields
+             */
+            @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +

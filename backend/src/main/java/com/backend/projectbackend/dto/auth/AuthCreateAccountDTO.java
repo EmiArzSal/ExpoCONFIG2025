@@ -39,7 +39,10 @@ public class AuthCreateAccountDTO {
     private String numeroEmpleado;
 
 
-    public AuthCreateAccountDTO() {}
+    /**
+ * Constructs a new AuthCreateAccountDTO with default values.
+ */
+public AuthCreateAccountDTO() {}
 
     //Setters and getters
     public String getEmail() { return email; }
@@ -63,12 +66,37 @@ public class AuthCreateAccountDTO {
     public String getDepartment(){ return department; }
     public void setDepartamento(String department){ this.department = department; }
 
-    public String getBoleta(){ return boleta; }
-    public void setBoleta(String boleta){ this.boleta = boleta; }
+    /****
+ * Returns the boleta (student ID) associated with the account, or null if not provided.
+ *
+ * @return the boleta value, or null if not set
+ */
+public String getBoleta(){ return boleta; }
+    /****
+ * Sets the boleta value for the account creation request.
+ *
+ * @param boleta the boleta identifier, expected to be exactly 10 characters if provided
+ */
+public void setBoleta(String boleta){ this.boleta = boleta; }
 
-    public String getNumeroEmpleado() { return numeroEmpleado; }
-    public void setNumeroEmpleado(String numeroEmpleado) { this.numeroEmpleado = numeroEmpleado; }
+    /**
+ * Returns the employee number associated with the account, if provided.
+ *
+ * @return the employee number, or null if not set
+ */
+public String getNumeroEmpleado() { return numeroEmpleado; }
+    /****
+ * Sets the employee number for the account creation request.
+ *
+ * @param numeroEmpleado the employee number, expected to be exactly 10 characters if provided
+ */
+public void setNumeroEmpleado(String numeroEmpleado) { this.numeroEmpleado = numeroEmpleado; }
 
+    /**
+     * Returns a string representation of the AuthCreateAccountDTO, including all field values.
+     *
+     * @return a string containing the values of all fields in the DTO
+     */
     @Override
     public String toString() {
         return "AuthCreateAccountDTO{" +

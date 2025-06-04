@@ -1,6 +1,11 @@
 import { Award, CalendarDays, MapPin, Users } from 'lucide-react'
 import React from 'react'
 
+/**
+ * Renders the "Acerca de la Expo ESCOM" section with event information, highlights, and an illustrative image.
+ *
+ * Displays a responsive layout featuring descriptive text, key event features with icons, and an image related to the ESCOM project exhibition.
+ */
 function AboutSection() {
   return (
       <section id="acerca-de" className="py-16 bg-gray-50">

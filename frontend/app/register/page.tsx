@@ -13,6 +13,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 
+/**
+ * Renders the user registration page for the EXPOConfig system.
+ *
+ * Displays a registration form with dynamic fields and validation for both students and professors. Handles client-side validation, displays error or success notifications, and submits user data to the backend API. On successful registration, redirects to the login page after a short delay.
+ *
+ * @remark
+ * The form dynamically adjusts required fields based on the selected user type. For students, a valid student ID and group are required. For professors, both department and employee number must be provided.
+ */
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
