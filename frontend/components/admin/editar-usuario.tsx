@@ -49,7 +49,7 @@ export default function EditarUsuario({ open, onClose, onSave, usuario }: Props)
   const handleSave = async () => {
   try {
     const res = await fetch(`http://localhost:8080/api/auth/admin/usuarios/${formData.id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
