@@ -43,9 +43,6 @@ function HeroSection() {
                 <Button size="lg" variant="outline" className="bg-white text-blue-600 border-none hover:bg-blue-400">
                   Registra tu Proyecto
                 </Button>
-                <Button size="lg" variant="outline" className="bg-purple-600 text-white border-none hover:bg-purple-300">
-                  Ver Agenda Completa
-                </Button>
               </div>
             </div>
           </div>

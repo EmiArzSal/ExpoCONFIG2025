@@ -1,5 +1,6 @@
 import { Award, CalendarDays, MapPin, Users } from 'lucide-react'
 import React from 'react'
+import Link from 'next/link'
 
 function AboutSection() {
   return (

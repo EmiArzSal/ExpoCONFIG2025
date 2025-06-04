@@ -12,12 +12,12 @@ function CiaSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register">
-              <Button size="lg" className="bg-black text-white hover:bg-blue-800">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
                 Registrarse
               </Button>
             </Link>
             <Link href="/login">
-              <Button size="lg" variant="outline" className="bg-white text-blue-600 hover:bg-blue-50">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
                 Iniciar sesión
               </Button>
             </Link>

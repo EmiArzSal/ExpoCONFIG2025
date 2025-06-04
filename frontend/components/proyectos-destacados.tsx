@@ -83,7 +83,7 @@ function ProyectosDestacados() {
           </div>
 
           <div className="text-center mt-10">
-            <Link href="/proyectos-anteriores">
+            <Link href="/proyectos">
               <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
                 Explorar Más Proyectos
                 <ArrowRight className="h-4 w-4" />
