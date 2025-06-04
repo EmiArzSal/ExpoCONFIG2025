@@ -287,6 +287,32 @@ public class AuthService {
         return authRepository.findByUserTypeIgnoreCase("ADMIN");
     }
 
+    public ApiResponse<String> updateAdminAccount(String id, AuthCreateAccountDTO request) {
+        try {
+            Optional<User> userOptional = authRepository.findById(new org.bson.types.ObjectId(id));
+            if (userOptional.isEmpty()) {
+                return new ApiResponse<>(false, "Administrador no encontrado", null);
+            }
+            User user = userOptional.get();
+            if (!user.getAdmin()) {
+                return new ApiResponse<>(false, "El usuario no es un administrador", null);
+            }
+
+            // Actualiza los campos del administrador
+            user.setNombreCompleto(request.getNombreCompleto());
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setUserType("ADMIN");
+            user.setConfirmed(true); // Asumimos que el administrador ya está confirmado
+            authRepository.save(user);
+
+            return new ApiResponse<>(true, "Administrador actualizado exitosamente", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, "Error interno del servidor: " + e.getMessage(), null);
+        }
+    }
+
     public ApiResponse<String> deleteAdminById(String id) {
         try {
             Optional<User> userOptional = authRepository.findById(new org.bson.types.ObjectId(id));

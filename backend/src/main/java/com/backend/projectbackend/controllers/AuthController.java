@@ -91,6 +91,7 @@ public class AuthController {
     }
 
     @PostMapping("/create-admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse<String>> createAdmin(@Valid @RequestBody AuthCreateAccountDTO request) {
         ApiResponse<String> response = authService.createAdminAccount(request);
         if (!response.isSuccess()) {

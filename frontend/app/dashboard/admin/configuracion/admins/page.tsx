@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { toast } from "@/components/ui/use-toast"
-import { Plus, Trash2 } from "lucide-react"
+import { Eye, EyeOff, Plus, Trash2 } from "lucide-react"
 import { DashboardLayout } from "@/components/dashboard-layout"
+import { Label } from "@/components/ui/label"
 
 interface Admin {
   id: string,
@@ -21,13 +22,17 @@ export default function AdminsPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : ""
 
-  useEffect(() => {
-    const fetchAdmins = async () => {
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword)
+  }
+
+  const fetchAdmins = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/auth/admins", {
+        const res = await fetch("http://localhost:8080/api/auth/admin/admins", {
           headers: { Authorization: `Bearer ${token}` },
         })
         if (!res.ok) {
@@ -38,7 +43,9 @@ export default function AdminsPage() {
       } catch (error) {
         toast({ variant: "destructive", title: "Error", description: "No se pudieron cargar los administradores." })
       }
-    }
+  }
+
+  useEffect(() => {
     fetchAdmins()
   }, [token])
 
@@ -66,6 +73,7 @@ export default function AdminsPage() {
       setNombreCompleto("")
       setEmail("")
       setPassword("")
+      await fetchAdmins()
     } catch (error: any) {
       toast({ variant: "destructive", title: "Error", description: error.message || "No se pudo crear el admin." })
     } finally {
@@ -80,8 +88,8 @@ export default function AdminsPage() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
-      setAdmins(admins.filter(a => a.id !== id))
       toast({ title: "Admin eliminado", description: "El administrador ha sido eliminado." })
+      await fetchAdmins()
     } catch (error: any) {
       toast({ variant: "destructive", title: "Error", description: error.message || "No se pudo eliminar el admin." })
     } finally {
@@ -130,6 +138,7 @@ export default function AdminsPage() {
           <form onSubmit={handleCreateAdmin} className="space-y-4">
             <Input
               placeholder="Nombre completo"
+              className="bg-gray-100 border-none text-slate-500 pr-10"
               value={nombreCompleto}
               onChange={e => setNombreCompleto(e.target.value)}
               required
@@ -137,18 +146,48 @@ export default function AdminsPage() {
             <Input
               placeholder="Correo electrónico"
               type="email"
+              className="bg-gray-100 border-none text-slate-500 pr-10"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
             />
-            <Input
-              placeholder="Contraseña"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-            />
+            <div className="relative">
+                <Input
+                  placeholder="Contraseña"
+                  id="password"
+                  name="password"
+                  className="bg-gray-100 border-none text-slate-500 pr-10"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5"/> : <Eye className="w-5 h-5"/>}
+                </button>
+            </div>
+            <div>
+              <Input
+                placeholder="Confirmar contraseña"
+                type={showPassword ? "text" : "password"}
+                className="bg-gray-100 border-none text-slate-500 pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
             <DialogFooter>
+              <Button type="button" variant="secondary" onClick={() => setShowDialog(false)}>
+                Cancelar
+              </Button>
               <Button type="submit" disabled={isLoading}>
                 {isLoading ? "Creando..." : "Crear admin"}
               </Button>
