@@ -46,7 +46,7 @@ function ProyectosDestacados() {
                   alt="Aplicación de Realidad Aumentada"
                   className="w-full h-full object-cover"
                 />
-                <Badge className="absolute top-2 right-2">2024</Badge>
+                <Badge className="absolute top-2 right-2">2023</Badge>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Aplicación de Realidad Aumentada</h3>
@@ -55,7 +55,7 @@ function ProyectosDestacados() {
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-500">Desarrollo Móvil</div>
-                  <Badge variant="outline">2do Lugar</Badge>
+                  <Badge variant="outline">1er Lugar</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -67,7 +67,7 @@ function ProyectosDestacados() {
                   alt="Sistema de Seguridad Biométrica"
                   className="w-full h-full object-cover"
                 />
-                <Badge className="absolute top-2 right-2">2024</Badge>
+                <Badge className="absolute top-2 right-2">2022</Badge>
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-2">Sistema de Seguridad Biométrica</h3>
@@ -76,19 +76,10 @@ function ProyectosDestacados() {
                 </p>
                 <div className="flex justify-between items-center">
                   <div className="text-sm text-gray-500">Criptografía</div>
-                  <Badge variant="outline">3er Lugar</Badge>
+                  <Badge variant="outline">1er Lugar</Badge>
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="text-center mt-10">
-            <Link href="/proyectos">
-              <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
-                Explorar Más Proyectos
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>

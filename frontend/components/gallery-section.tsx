@@ -72,15 +72,6 @@ function GallerySection() {
               />
             </div>
           </div>
-
-          <div className="text-center mt-8">
-            <Link href="/galeria">
-              <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
-                Ver Más Fotos
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
   )

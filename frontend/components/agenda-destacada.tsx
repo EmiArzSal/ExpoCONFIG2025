@@ -5,8 +5,38 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { CalendarDays, Award, Users, MapPin, Clock, ChevronRight, ExternalLink, ArrowRight } from "lucide-react"
 import { useEffect, useState } from "react"
+import { InfiniteCardsAgenda } from "@/components/ui/infinitecardsagenda"
 
 function AgendaDestacada() {
+  const agendaItems = [
+    {
+      date: "20 Junio",
+      title: "Inauguración oficial y presentación de proyectos destacados",
+      description: "Disfruta la apertura con autoridades académicas. Conoce los proyectos desarrollados durante el semestre. Participa en el recorrido por los stands de los equipos.",
+      time: "10:30 - 18:00",
+      location: "Edificios 3 y 4",
+      type: "Exposición",
+      color: "bg-blue-600"
+    },
+    {
+      date: "21 Junio",
+      title: "Conferencia sobre innovación tecnológica y tendencias del sector",
+      description: "Expertos invitados compartirán su visión sobre el futuro. Descubre cómo la tecnología está transformando la industria. Espacio para preguntas y networking con los ponentes.",
+      time: "12:00 - 14:00",
+      location: "Auditorio Principal",
+      type: "Conferencia",
+      color: "bg-purple-600"
+    },
+    {
+      date: "22 Junio",
+      title: "Premiación a los mejores proyectos y clausura de la exposición anual",
+      description: "Reconocimiento a los equipos más destacados del evento. Palabras de cierre por parte de los organizadores. Invitación a la próxima edición y foto final.",
+      time: "16:00 - 18:00",
+      location: "Auditorio Principal",
+      type: "Premiación",
+      color: "bg-green-600"
+    }
+  ]
   return (
     <section id="agenda" className="py-16 bg-white">
             <div className="container mx-auto px-4">
@@ -88,7 +118,7 @@ function AgendaDestacada() {
                     </div>
                   </CardContent>
                 </Card>
-              </div>
+              </div>          
             </div>
           </section>
   )
