@@ -89,15 +89,6 @@ function AgendaDestacada() {
                   </CardContent>
                 </Card>
               </div>
-    
-              <div className="text-center mt-8">
-                <Link href="/dashboard/estudiante/agenda">
-                  <Button variant="outline" className="bg-blue-700 text-white hover:bg-blue-400 gap-2">
-                    Ver Agenda Completa
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-              </div>
             </div>
           </section>
   )

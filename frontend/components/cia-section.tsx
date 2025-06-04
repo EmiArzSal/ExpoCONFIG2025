@@ -17,7 +17,7 @@ function CiaSection() {
               </Button>
             </Link>
             <Link href="/login">
-              <Button size="lg"  className="bg-white text-blue-600 hover:bg-blue-50">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
                 Iniciar sesión
               </Button>
             </Link>
