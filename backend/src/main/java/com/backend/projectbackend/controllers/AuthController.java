@@ -11,16 +11,20 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
+    private final com.backend.projectbackend.repository.AuthRepository authRepository;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, com.backend.projectbackend.repository.AuthRepository authRepository) {
         this.authService = authService;
+        this.authRepository = authRepository;
     }
 
     @PostMapping("/create-account")
@@ -86,9 +90,38 @@ public class AuthController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @PostMapping("/create-admin")
+    public ResponseEntity<ApiResponse<String>> createAdmin(@Valid @RequestBody AuthCreateAccountDTO request) {
+        ApiResponse<String> response = authService.createAdminAccount(request);
+        if (!response.isSuccess()) {
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.status(201).body(response);
+    }
+
     @GetMapping("/user")
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(new UserDTO(user));
     }
+
+    @GetMapping("/admins")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> getAllAdmins() {
+    List<User> admins = authService.getAllAdmins();
+    // Puedes mapear a un DTO si no quieres exponer toda la entidad User
+    List<UserDTO> adminDTOs = admins.stream().map(UserDTO::new).toList();
+    return ResponseEntity.ok(Map.of("admins", adminDTOs));
+    }
+
+    @DeleteMapping("/delete-admin/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<ApiResponse<String>> deleteAdmin(@PathVariable String id) {
+        ApiResponse<String> response = authService.deleteAdminById(id);
+        if (!response.isSuccess()) {
+            return ResponseEntity.badRequest().body(response);
+        }
+        return ResponseEntity.ok(response);
+    }
 }
+

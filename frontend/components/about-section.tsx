@@ -23,7 +23,7 @@ function AboutSection() {
                     <Award className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium">Proyectos Destacados</h3>
+                    <h3 className="font-medium text-black">Proyectos Destacados</h3>
                     <p className="text-gray-600 text-sm">Reconocimiento a los mejores trabajos</p>
                   </div>
                 </div>
@@ -32,7 +32,7 @@ function AboutSection() {
                     <Users className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium">Networking</h3>
+                    <h3 className="font-medium text-black">Networking</h3>
                     <p className="text-gray-600 text-sm">Conexión con empresas y profesionales</p>
                   </div>
                 </div>
@@ -41,7 +41,7 @@ function AboutSection() {
                     <CalendarDays className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium">Eventos Diversos</h3>
+                    <h3 className="font-medium text-black">Eventos Diversos</h3>
                     <p className="text-gray-600 text-sm">Talleres, conferencias y actividades</p>
                   </div>
                 </div>
@@ -50,7 +50,7 @@ function AboutSection() {
                     <MapPin className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium">Múltiples Espacios</h3>
+                    <h3 className="font-medium text-black">Múltiples Espacios</h3>
                     <p className="text-gray-600 text-sm">Distribuidos por toda la escuela</p>
                   </div>
                 </div>

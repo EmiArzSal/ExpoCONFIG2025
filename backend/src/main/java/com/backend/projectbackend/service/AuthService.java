@@ -13,6 +13,8 @@ import com.backend.projectbackend.util.token.JwtUtil;
 import com.backend.projectbackend.util.token.TokenGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 
@@ -38,8 +40,19 @@ public class AuthService {
             return new ApiResponse<>(false, "El correo ya está registrado.", null);
         }
 
-            // Validación según el rol
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setNombreCompleto(request.getNombreCompleto());
+        user.setUserType(request.getUserType());
+
+        // Validación según el rol
         if (request.getUserType().equalsIgnoreCase("estudiante")) {
+            user.setGroup(request.getGroup());
+            user.setBoleta(request.getBoleta());
+            user.setDepartment(null);
+            user.setNumeroEmpleado(null);
+
             if (request.getGroup() == null || request.getBoleta() == null) {
                 return new ApiResponse<>(false, "Faltan datos de alumno (grupo o boleta).", null);
             }
@@ -48,26 +61,25 @@ public class AuthService {
             }
         }
         if (request.getUserType().equalsIgnoreCase("profesor")) {
+            user.setGroup(null);
+            user.setBoleta(null);
+            user.setDepartment(request.getDepartment());
+            user.setNumeroEmpleado(request.getNumeroEmpleado());
             if (request.getDepartment() == null) {
                 return new ApiResponse<>(false, "Falta el departamento.", null);
             }
-
+            if (authRepository.existsByEmail(request.getEmail())) {
+                return new ApiResponse<>(false, "El correo ya está registrado.", null);
+            }
+            if (request.getNumeroEmpleado() == null) {
+                return new ApiResponse<>(false, "Falta el número de empleado.", null);
+            }
+            if(authRepository.existsByNumeroEmpleado(request.getNumeroEmpleado())) {
+                return new ApiResponse<>(false, "El número de empleado ya está registrado.", null);
+            }
         }
 
         try {
-            User user = new User();
-            user.setEmail(request.getEmail());
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-            user.setNombreCompleto(request.getNombreCompleto());
-            user.setUserType(request.getUserType());
-
-            // Solo para alumno
-            user.setGroup(request.getGroup());
-            user.setBoleta(request.getBoleta());
-
-            // Solo para profesor
-            user.setDepartment(request.getDepartment());
-
 
             authRepository.save(user);
 
@@ -102,7 +114,7 @@ public class AuthService {
                 return new ApiResponse<>(false, "User not found", null);
             }
 
-            userExists.setConfirmed();
+            userExists.setConfirmed(true);
             authRepository.save(userExists);
             tokenRepository.delete(tokenExists);
             return new ApiResponse<>(true, "Account confirmed", null);
@@ -245,6 +257,51 @@ public class AuthService {
         }catch (Exception e){
             e.printStackTrace();
             return new ApiResponse<>(false, "Internal server error: " + e.getMessage(), null);
+        }
+    }
+
+    public ApiResponse<String> createAdminAccount(AuthCreateAccountDTO request) {
+        // Verifica si ya existe un usuario con ese email
+        if (authRepository.existsByEmail(request.getEmail())) {
+            return new ApiResponse<>(false, "El correo ya está registrado.", null);
+        }
+        // Crea el usuario con userType ADMIN y contraseña hasheada
+        User user = new User();
+        user.setNombreCompleto(request.getNombreCompleto());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUserType("ADMIN");
+        // Para administradores, marcamos como confirmado directamente
+        user.setConfirmed(true); // Opcional: puedes requerir confirmación por correo si lo deseas
+        user.setAdmin(true); // Marca al usuario como administrador
+        user.setGroup(null); // No aplica para administradores
+        user.setBoleta(null); // No aplica para administradores
+        user.setDepartment(null); // No aplica para administradores
+        user.setNumeroEmpleado(null); // No aplica para administradores
+
+        authRepository.save(user);
+        return new ApiResponse<>(true, "Administrador creado exitosamente.", null);
+    }
+
+    public List<User> getAllAdmins() {
+        return authRepository.findByUserTypeIgnoreCase("ADMIN");
+    }
+
+    public ApiResponse<String> deleteAdminById(String id) {
+        try {
+            Optional<User> userOptional = authRepository.findById(new org.bson.types.ObjectId(id));
+            if (userOptional.isEmpty()) {
+                return new ApiResponse<>(false, "Administrador no encontrado", null);
+            }
+            User user = userOptional.get();
+            if (!user.getAdmin()) {
+                return new ApiResponse<>(false, "El usuario no es un administrador", null);
+            }
+            authRepository.deleteById(new org.bson.types.ObjectId(id));
+            return new ApiResponse<>(true, "Administrador eliminado exitosamente", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, "Error interno del servidor: " + e.getMessage(), null);
         }
     }
 }

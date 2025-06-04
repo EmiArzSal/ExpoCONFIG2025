@@ -36,9 +36,13 @@ public class User {
     private Boolean confirmed = false; //Agregar valor por default
     private Boolean admin = false;
 
+    @NotBlank
+    private String numeroEmpleado;
+
+
     public User() {}
 
-    public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String userType, String group, String boleta, String department) {
+    public User(String nombreCompleto, String password, String email, String token, Boolean confirmed,Boolean admin, String userType, String group, String boleta, String department, String numeroEmpleado) {
         this.nombreCompleto = nombreCompleto;
         this.password = password;
         this.userType = userType;
@@ -63,9 +67,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public Boolean getConfirmed() { return confirmed; }
-    public void setConfirmed() { this.confirmed = true; }
-
     public Boolean getAdmin() { return admin; }
     public void setAdmin(Boolean admin) { this.admin = admin; }
 
@@ -88,6 +89,21 @@ public class User {
     public void setDepartment(String department) {
         this.department = department;
     }
+    // Método para obtener el estado de confirmación
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+    // Método para confirmar el usuario
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+    public String getNumeroEmpleado() {
+        return numeroEmpleado;
+    }
+
+    public void setNumeroEmpleado(String numeroEmpleado) {
+        this.numeroEmpleado = numeroEmpleado;
+    }
 
     @Override
     public String toString() {
@@ -98,6 +114,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", confirmed=" + confirmed +
                 '}';
-    }
+            }
 
 }
