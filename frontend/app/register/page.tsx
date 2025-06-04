@@ -26,6 +26,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [numeroEmpleado, setNumeroEmpleado] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -77,7 +78,17 @@ export default function RegisterPage() {
         description: "Por favor selecciona tu departamento.",
       })
       setIsLoading(false)
+
       return
+    }
+    if(userType === "profesor" &&  !numeroEmpleado) {
+      toast({
+      variant: "destructive",
+      title: "Número de empleado requerido",
+      description: "Por favor ingresa tu número de empleado.",
+      })
+    setIsLoading(false)
+    return
     }
 
     //Validación del grupo
@@ -107,10 +118,11 @@ export default function RegisterPage() {
           email,
           password,
           passwordConfirm: confirmPassword,
-          userType: userType === "estudiante" ? "alumno" : "profesor",
+          userType: userType === "estudiante" ? "estudiante" : "profesor",
           group: userType === "estudiante" ? group : undefined,
           boleta: userType === "estudiante" ? studentId : undefined,
           department: userType === "profesor" ? department : undefined,
+          numeroEmpleado: userType === "profesor" ? numeroEmpleado : undefined,
         }),
       })
 
@@ -148,9 +160,6 @@ export default function RegisterPage() {
         setIsLoading(false)
         return
       }
-
-
-      console.log("Mostrando toast de éxito...") // Debug log
 
       // Toast de éxito
       toast({
@@ -282,27 +291,43 @@ export default function RegisterPage() {
             )}
 
             {userType === "profesor" && (
-              <div className="space-y-2">
-                <Label htmlFor="department" className="text-gray-800">
-                  Departamento
-                </Label>
-                <Select value={department} onValueChange={setDepartment}>
-                  <SelectTrigger id="department" className="bg-gray-100 border-none text-slate-500">
-                    <SelectValue placeholder="Selecciona tu departamento" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-100 border-none">
-                    <SelectItem value="isc" className="bg-gray-100 border-none text-slate-500">
-                      Ingeniería en Sistemas Computacionales
-                    </SelectItem>
-                    <SelectItem value="ia" className="bg-gray-100 border-none text-slate-500">
-                      Ingeniería en Inteligencia Artificial
-                    </SelectItem>
-                    <SelectItem value="lcd" className="bg-gray-100 border-none text-slate-500">
-                      Licenciatura en Ciencia de Datos
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="numeroEmpleado" className="text-gray-800">
+                    Número de Empleado
+                  </Label>
+                  <Input
+                    id="numeroEmpleado"
+                    type="text"
+                    value={numeroEmpleado}
+                    onChange={(e) => setNumeroEmpleado(e.target.value)}
+                    className="bg-gray-100 border-none text-slate-500"
+                    placeholder="Ej: EMP12345"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="department" className="text-gray-800">
+                    Departamento
+                  </Label>
+                  <Select value={department} onValueChange={setDepartment}>
+                    <SelectTrigger id="department" className="bg-gray-100 border-none text-slate-500">
+                      <SelectValue placeholder="Selecciona tu departamento" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-100 border-none">
+                      <SelectItem value="isc" className="bg-gray-100 border-none text-slate-500">
+                        Ingeniería en Sistemas Computacionales
+                      </SelectItem>
+                      <SelectItem value="ia" className="bg-gray-100 border-none text-slate-500">
+                        Ingeniería en Inteligencia Artificial
+                      </SelectItem>
+                      <SelectItem value="lcd" className="bg-gray-100 border-none text-slate-500">
+                        Licenciatura en Ciencia de Datos
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </>
             )}
 
             <div className="space-y-2">

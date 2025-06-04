@@ -27,16 +27,16 @@ public class AuthCreateAccountDTO {
     @NotBlank(message = "User type required")
     private String userType;
 
-    @NotBlank(message = "Group required")
     @Size(min = 5, max = 5, message = "El grupo debe de tener minimo 5 caracteres")
     private String group;
     
-    @NotBlank(message = "Department required")
     private String department;
     
-    @NotBlank(message = "Student ID required")
     @Size(min = 10, max = 10, message = "La boleta debe de tener mínimo 10 caracteres")
     private String boleta;
+
+    @Size(min = 10, max = 10, message = "El número de empleado debe de tener mínimo 10 caracteres")
+    private String numeroEmpleado;
 
 
     public AuthCreateAccountDTO() {}
@@ -66,6 +66,9 @@ public class AuthCreateAccountDTO {
     public String getBoleta(){ return boleta; }
     public void setBoleta(String boleta){ this.boleta = boleta; }
 
+    public String getNumeroEmpleado() { return numeroEmpleado; }
+    public void setNumeroEmpleado(String numeroEmpleado) { this.numeroEmpleado = numeroEmpleado; }
+
     @Override
     public String toString() {
         return "AuthCreateAccountDTO{" +
@@ -77,6 +80,7 @@ public class AuthCreateAccountDTO {
                 ", group='" + group + '\'' +
                 ", department='" + department + '\'' +
                 ", boleta='" + boleta + '\'' +
+                ", numeroEmpleado='" + numeroEmpleado + '\'' +
                 '}';
     }
 }
