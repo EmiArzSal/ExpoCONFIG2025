@@ -9,6 +9,13 @@
             "name": "ProjectBackendApplication",
             "request": "launch",
             "mainClass": "com.backend.projectbackend.ProjectBackendApplication",
+            "projectName": "ProjectBackend"
+        },
+        {
+            "type": "java",
+            "name": "ProjectBackendApplication",
+            "request": "launch",
+            "mainClass": "com.backend.projectbackend.ProjectBackendApplication",
             "projectName": "expoconfig"
         },
         {

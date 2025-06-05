@@ -10,16 +10,10 @@ function HeroSection() {
   const words = `Descubre el talento y la innovación de nuestros estudiantes en la exposición anual de proyectos académicos.`;
   const words2 = [
     {
-      text: 'Exposición'
+      text: 'Exposición '
     },
     {
-      text: 'de'
-    },
-    {
-      text: 'proyectos'
-    },
-    {
-      text: 'escolares'
+     text: 'anual'
     },
     {
       text: 'ESCOM'
