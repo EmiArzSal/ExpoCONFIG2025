@@ -46,8 +46,8 @@ export function DashboardLayout({ children, userType }: DashboardLayoutProps) {
       roles: ["profesor", "admin"],
     },
     {
-      title: "Participantes",
-      href: `/dashboard/${userType}/participantes`,
+      title: "Usuarios",
+      href: `/dashboard/${userType}/usuarios`,
       icon: Users,
       roles: ["profesor", "admin"],
     },

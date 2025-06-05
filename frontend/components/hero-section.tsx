@@ -13,13 +13,7 @@ function HeroSection() {
       text: 'Exposición'
     },
     {
-      text: 'de'
-    },
-    {
-      text: 'proyectos'
-    },
-    {
-      text: 'escolares'
+     text: 'anual'
     },
     {
       text: 'ESCOM'
