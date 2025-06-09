@@ -24,7 +24,6 @@ public class AuthCreateAccountDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String passwordConfirm;
 
-    @NotBlank(message = "User type required")
     private String userType;
 
     @Size(min = 5, max = 5, message = "El grupo debe de tener minimo 5 caracteres")

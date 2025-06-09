@@ -33,7 +33,7 @@ export default function ConfiguracionAdmin() {
       titulo: "Gestión de Usuarios",
       descripcion: "Administrar estudiantes, profesores y sus permisos",
       icono: Users,
-      href: "/dashboard/admin/configuracion/usuarios",
+      href: "/dashboard/admin/configuracion/usuarios-config",
       color: "bg-blue-100 text-blue-600",
       items: ["Estudiantes", "Profesores", "Permisos"],
       badge: "Activo",

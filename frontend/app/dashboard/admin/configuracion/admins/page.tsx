@@ -8,6 +8,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Eye, EyeOff, Plus, Trash2 } from "lucide-react"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Label } from "@/components/ui/label"
+import { Toaster } from "@/components/ui/toaster"
 
 interface Admin {
   id: string,
@@ -23,8 +24,16 @@ export default function AdminsPage() {
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [passwordConfirm, setPasswordConfirm] = useState("")
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : ""
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+  if (!token) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-red-500">No tienes permiso para acceder a esta página.</p>
+      </div>
+    )
+  }
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword)
@@ -32,8 +41,11 @@ export default function AdminsPage() {
 
   const fetchAdmins = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/auth/admin/admins", {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await fetch("http://localhost:8080/api/auth/admin/admins", { 
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
         })
         if (!res.ok) {
           throw new Error("Error al obtener los administradores")
@@ -60,14 +72,11 @@ export default function AdminsPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ nombreCompleto, email, password, passwordConfirm: password, userType: "ADMIN"}),
+        body: JSON.stringify({ nombreCompleto, email, password, passwordConfirm: passwordConfirm, userType: "ADMIN"}),
       })
       const data = await res.json()
+      console.log(data)
       if(!res.ok || !data.success) throw new Error(data.message || "No se pudo crear el admin")
-      setAdmins([
-        ...admins,
-        { id: data.id || Date.now().toString(), nombreCompleto, email }
-      ])
       toast({ title: "Admin creado", description: `Se agregó a ${nombreCompleto}` })
       setShowDialog(false)
       setNombreCompleto("")
@@ -83,8 +92,17 @@ export default function AdminsPage() {
 
   // Simulación de eliminación (reemplaza por llamada a tu API)
   const handleDeleteAdmin = async (id: string) => {
+    if (!window.confirm("¿Estás seguro de eliminar este administrador? Esta acción no se puede deshacer.")) {
+      return
+    }
+    setIsLoading(true)
+    if (!token) {
+      toast({ variant: "destructive", title: "Error", description: "No tienes permiso para eliminar administradores." })
+      setIsLoading(false)
+      return
+    }
     try {
-      await fetch(`http://localhost:8080/api/auth/delete-admin/${id}`, {
+      await fetch(`http://localhost:8080/api/auth/admin/delete-admin/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -121,7 +139,7 @@ export default function AdminsPage() {
                   onClick={() => handleDeleteAdmin(admin.id)}
                   title="Eliminar admin"
                 >
-                  <Trash2 className="w-4 h-4 text-red-500" />
+                <Trash2 className="w-4 h-4 text-red-500" />
                 </Button>
               </div>
             ))}
@@ -176,10 +194,10 @@ export default function AdminsPage() {
             <div>
               <Input
                 placeholder="Confirmar contraseña"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? "text" : "password"} 
                 className="bg-gray-100 border-none text-slate-500 pr-10"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm (e.target.value)}
                 required
               />
             </div>
