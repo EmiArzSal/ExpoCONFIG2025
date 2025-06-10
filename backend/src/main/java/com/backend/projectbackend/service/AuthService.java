@@ -284,6 +284,7 @@ public class AuthService {
     }
 
     public List<User> getAllAdmins() {
+    // Retorna todos los usuarios con userType ADMIN
         return authRepository.findByUserTypeIgnoreCase("ADMIN");
     }
 

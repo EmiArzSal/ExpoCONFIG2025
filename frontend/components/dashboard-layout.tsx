@@ -91,17 +91,17 @@ export function DashboardLayout({ children, userType }: DashboardLayoutProps) {
         </div>
 
         <div className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">
-          {filteredNavItems.map((item) => (
+          {filteredNavItems.map((items) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={items.href}
+              href={items.href}
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                pathname === item.href ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-100",
+                pathname === items.href ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-100",
               )}
             >
-              <item.icon className="h-5 w-5" />
-              {item.title}
+              <items.icon className="h-5 w-5" />
+              {items.title}
             </Link>
           ))}
         </div>

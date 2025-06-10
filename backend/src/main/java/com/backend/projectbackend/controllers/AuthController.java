@@ -91,7 +91,6 @@ public class AuthController {
     }
 
     @PostMapping("/create-admin")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse<String>> createAdmin(@Valid @RequestBody AuthCreateAccountDTO request) {
         ApiResponse<String> response = authService.createAdminAccount(request);
         if (!response.isSuccess()) {
@@ -104,25 +103,6 @@ public class AuthController {
     public ResponseEntity<?> getUserInfo(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(new UserDTO(user));
-    }
-
-    @GetMapping("/admins")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<?> getAllAdmins() {
-    List<User> admins = authService.getAllAdmins();
-    // Puedes mapear a un DTO si no quieres exponer toda la entidad User
-    List<UserDTO> adminDTOs = admins.stream().map(UserDTO::new).toList();
-    return ResponseEntity.ok(Map.of("admins", adminDTOs));
-    }
-
-    @DeleteMapping("/delete-admin/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ApiResponse<String>> deleteAdmin(@PathVariable String id) {
-        ApiResponse<String> response = authService.deleteAdminById(id);
-        if (!response.isSuccess()) {
-            return ResponseEntity.badRequest().body(response);
-        }
-        return ResponseEntity.ok(response);
     }
 }
 

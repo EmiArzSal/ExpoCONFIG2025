@@ -21,12 +21,10 @@ public class User {
     @NotBlank
     private String password;
 
-    @NotBlank
     private String group;
 
     private String department;
 
-    @NotBlank
     private String boleta;
 
     @Email
