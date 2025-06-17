@@ -5,7 +5,6 @@ import com.backend.projectbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import com.backend.projectbackend.dto.auth.AdminDTO;
 import com.backend.projectbackend.util.responses.ApiResponse;
 import com.backend.projectbackend.service.AuthService;

@@ -10,7 +10,9 @@ function Header() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Award className="h-8 w-8 text-blue-600" />
-            <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
+            <Link href="/">
+              <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
+            </Link>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <Link href="#about" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -27,6 +29,9 @@ function Header() {
             </Link>
             <Link href="#galeria" className="text-gray-600 hover:text-blue-600 transition-colors">
               Galería
+            </Link>
+            <Link href="/visita" className="text-gray-600 hover:text-blue-600 transition-colors">
+              Registrar visita
             </Link>
           </nav>
           <div className="flex gap-4">

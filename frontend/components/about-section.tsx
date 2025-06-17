@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 function AboutSection() {
   return (
-      <section id="acerca-de" className="py-16 bg-gray-50">
+      <section id="about" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-1/2">
