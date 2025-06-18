@@ -1,7 +1,11 @@
 package com.backend.projectbackend.model;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
 
@@ -12,15 +16,25 @@ public class Visit {
     private String id;
 
     // Atributos de la visita
+    @NotBlank
     private String nombre;
+    
+    @NotBlank
+    @Email
     private String email;
     private String telefono;
     private String institucion;
+
+    @NotBlank
     private String tipoVisitante;
     private String proyectoId;
+
+    @NotBlank
     private String proyectoTitulo;
     private String stand;
     private String comentarios;
+
+    @CreatedDate
     private Date fechaVisita;
 
     // Constructor vacío para MongoDB

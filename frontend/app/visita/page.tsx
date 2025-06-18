@@ -28,60 +28,40 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 
 // Datos simulados más realistas
-const proyectosDisponibles = [
-  {
-    id: "1",
-    titulo: "Sistema de Gestión Inteligente",
-    stand: "Stand A-15",
-    departamento: "Ingeniería en Sistemas",
-    estudiantes: ["Ana García", "Carlos López", "María Rodríguez"],
-    profesor: "Dr. Juan Pérez",
-    descripcion: "Sistema que utiliza IA para optimizar procesos administrativos",
-    visitasHoy: 23,
-    calificacion: 4.8,
-    disponible: true,
-    horario: "10:00 - 18:00",
-  },
-  {
-    id: "2",
-    titulo: "App de Realidad Aumentada Educativa",
-    stand: "Stand B-08",
-    departamento: "Ingeniería en Sistemas",
-    estudiantes: ["Luis Martín", "Sofia Chen", "Diego Ruiz"],
-    profesor: "Dra. Carmen Silva",
-    descripcion: "Aplicación educativa con realidad aumentada para enseñanza",
-    visitasHoy: 31,
-    calificacion: 4.9,
-    disponible: true,
-    horario: "09:00 - 17:00",
-  },
-  {
-    id: "3",
-    titulo: "Sistema de Seguridad Biométrica",
-    stand: "Stand C-12",
-    departamento: "Criptografía y Seguridad",
-    estudiantes: ["Roberto Kim", "Elena Vega"],
-    profesor: "Ing. Miguel Torres",
-    descripcion: "Autenticación multi-factor con biometría avanzada",
-    visitasHoy: 18,
-    calificacion: 4.7,
-    disponible: false,
-    horario: "14:00 - 18:00",
-  },
-  {
-    id: "4",
-    titulo: "Plataforma de IoT para Smart Cities",
-    stand: "Stand A-22",
-    departamento: "Redes y Telecomunicaciones",
-    estudiantes: ["Patricia Morales", "Andrés Jiménez", "Lucía Herrera"],
-    profesor: "Dr. Fernando Castro",
-    descripcion: "Red de sensores IoT para monitoreo urbano inteligente",
-    visitasHoy: 27,
-    calificacion: 4.6,
-    disponible: true,
-    horario: "10:30 - 17:30",
-  },
-]
+type Proyecto = {
+  id: string
+  projectName: string,
+  title: string,
+  group: string,
+  stand: string,
+  description?: string
+  career: string
+  subject: string
+  calificacion?: number
+  integrantes?: string[]
+  professorName?: string
+  assignedSpace?: string
+  expositionTime?: string
+  expositionDate?: string
+  visitasHoy?: number
+  status?: boolean
+}
+const [proyectosDisponibles, setProyectosDisponibles] = useState<Proyecto[]>([])
+
+useEffect(() => {
+  const fetchProyectos = async () => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/proyectos`)
+      if (res.ok) {
+        const data = await res.json()
+        setProyectosDisponibles(data)
+      }
+    } catch (error) {
+      console.error("Error loading projects:", error)
+    }
+  }
+  fetchProyectos()
+}, [])
 
 const tiposVisitante = [
   { value: "estudiante", label: "Estudiante ESCOM" },
@@ -166,7 +146,7 @@ export default function RegistroDeVisita() {
       const visitaData = {
         nombre: formData.nombre,
         email: formData.email,
-        telefono: formData.telefono || "98",
+        telefono: formData.telefono || "",
         institucion: formData.institucion || "",
         tipoVisitante: formData.tipoVisitante,
         proyectoId: formData.proyectoId,
@@ -375,12 +355,12 @@ export default function RegistroDeVisita() {
                       </SelectTrigger>
                       <SelectContent>
                         {proyectosDisponibles.map((proyecto) => (
-                          <SelectItem key={proyecto.id} value={proyecto.id} disabled={!proyecto.disponible}>
+                          <SelectItem key={proyecto.id} value={proyecto.id} disabled={!proyecto.status}>
                             <div className="flex items-center justify-between w-full">
                               <span>
-                                {proyecto.titulo} - {proyecto.stand}
+                                {proyecto.title} - {proyecto.assignedSpace}
                               </span>
-                              {!proyecto.disponible && (
+                              {!proyecto.status && (
                                 <Badge variant="secondary" className="ml-2">
                                   No disponible
                                 </Badge>
@@ -504,7 +484,7 @@ export default function RegistroDeVisita() {
             </CardHeader>
             <CardContent className="space-y-3">
               {proyectosDisponibles
-                .sort((a, b) => b.visitasHoy - a.visitasHoy)
+                .sort((a, b) => (b.visitasHoy ?? 0) - (a.visitasHoy ?? 0))
                 .slice(0, 3)
                 .map((proyecto, index) => (
                   <div key={proyecto.id} className="flex items-center gap-3">
@@ -512,8 +492,8 @@ export default function RegistroDeVisita() {
                       <span className="text-xs font-bold text-blue-600">{index + 1}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{proyecto.titulo}</p>
-                      <p className="text-xs text-gray-500">{proyecto.stand}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{proyecto.title}</p>
+                      <p className="text-xs text-gray-500">{proyecto.assignedSpace}</p>
                     </div>
                     <div className="flex items-center gap-1">
                       <Eye className="h-3 w-3 text-gray-400" />
