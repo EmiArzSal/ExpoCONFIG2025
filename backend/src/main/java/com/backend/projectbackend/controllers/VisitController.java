@@ -3,6 +3,9 @@ package com.backend.projectbackend.controllers;
 import com.backend.projectbackend.model.Visit;
 import com.backend.projectbackend.repository.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,33 +74,29 @@ public class VisitController {
     @GetMapping("/estadisticas")
     public ResponseEntity<?> obtenerEstadisticas() {
         try {
-            List<Visit> todasLasVisitas = visitRepository.findAll();
-            
             Map<String, Object> estadisticas = new HashMap<>();
-            estadisticas.put("totalVisitas", todasLasVisitas.size());
-            
+            estadisticas.put("totalVisitas", visitRepository.count());
             // Contar por tipo de visitante
             Map<String, Long> porTipo = new HashMap<>();
-            porTipo.put("estudiante", todasLasVisitas.stream().filter(v -> "estudiante".equals(v.getTipoVisitante())).count());
-            porTipo.put("profesor", todasLasVisitas.stream().filter(v -> "profesor".equals(v.getTipoVisitante())).count());
-            porTipo.put("empresa", todasLasVisitas.stream().filter(v -> "empresa".equals(v.getTipoVisitante())).count());
-            porTipo.put("publico", todasLasVisitas.stream().filter(v -> "publico".equals(v.getTipoVisitante())).count());
-            porTipo.put("familia", todasLasVisitas.stream().filter(v -> "familia".equals(v.getTipoVisitante())).count());
-            
+            porTipo.put("estudiante", visitRepository.countByTipoVisitante("estudiante"));
+            porTipo.put("profesor",   visitRepository.countByTipoVisitante("profesor"));
+            porTipo.put("empresa",    visitRepository.countByTipoVisitante("empresa"));
+            porTipo.put("publico",    visitRepository.countByTipoVisitante("publico"));
+            porTipo.put("familia",    visitRepository.countByTipoVisitante("familia"));
             estadisticas.put("porTipoVisitante", porTipo);
-            
             return ResponseEntity.ok(estadisticas);
-            
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                 .body(createErrorResponse("Error al obtener estadísticas: " + e.getMessage()));
-        }
     }
+}
 
     @GetMapping("/todas")
-    public ResponseEntity<?> obtenerTodasLasVisitas() {
+    public ResponseEntity<?> obtenerTodasLasVisitas(@RequestParam(defaultValue = "0") int page, 
+                                                    @RequestParam(defaultValue = "10") int size) {
         try {
-            List<Visit> visitas = visitRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Visit> visitas = visitRepository.findAll(pageable);
             return ResponseEntity.ok(visitas);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
