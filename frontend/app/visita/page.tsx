@@ -28,40 +28,138 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 
 // Datos simulados más realistas
-type Proyecto = {
-  id: string
-  projectName: string,
-  title: string,
-  group: string,
-  stand: string,
-  description?: string
-  career: string
-  subject: string
-  calificacion?: number
-  integrantes?: string[]
-  professorName?: string
-  assignedSpace?: string
-  expositionTime?: string
-  expositionDate?: string
-  visitasHoy?: number
-  status?: boolean
-}
-const [proyectosDisponibles, setProyectosDisponibles] = useState<Proyecto[]>([])
-
-useEffect(() => {
-  const fetchProyectos = async () => {
-    try {
-      const res = await fetch(`http://localhost:8080/api/proyectos`)
-      if (res.ok) {
-        const data = await res.json()
-        setProyectosDisponibles(data)
-      }
-    } catch (error) {
-      console.error("Error loading projects:", error)
-    }
-  }
-  fetchProyectos()
-}, [])
+const proyectosDisponibles = [
+  {
+    id: "1",
+    titulo: "Sistema de Detección de Fraudes con IA",
+    stand: "M5-1011",
+    departamento: "Ingeniería en Inteligencia Artificial",
+    estudiantes: ["Ana García", "Carlos López"],
+    profesor: "Dr. Juan Pérez",
+    descripcion: "Plataforma que utiliza modelos de machine learning para detectar fraudes bancarios en tiempo real.",
+    visitasHoy: 23,
+    calificacion: 4.8,
+    disponible: true,
+    horario: "10:30 - 12:30",
+  },
+  {
+    id: "2",
+    titulo: "Asistente Virtual para Estudiantes",
+    stand: "M4-1006",
+    departamento: "Ingeniería en Inteligencia Artificial",
+    estudiantes: ["Luis Martín", "Sofía Chen"],
+    profesor: "Dra. Carmen Silva",
+    descripcion: "Chatbot inteligente que responde dudas académicas y administrativas usando procesamiento de lenguaje natural.",
+    visitasHoy: 31,
+    calificacion: 4.9,
+    disponible: true,
+    horario: "11:00 - 13:00",
+  },
+  {
+    id: "3",
+    titulo: "Sistema de Seguridad Biométrica",
+    stand: "M3-2007",
+    departamento: "Ingeniería en Inteligencia Artificial",
+    estudiantes: ["Roberto Kim", "Elena Vega"],
+    profesor: "Ing. Miguel Torres",
+    descripcion: "Autenticación multi-factor con reconocimiento facial y de voz para acceso seguro a laboratorios.",
+    visitasHoy: 18,
+    calificacion: 4.7,
+    disponible: true,
+    horario: "11:30 - 13:30",
+  },
+  {
+    id: "4",
+    titulo: "Plataforma de Gestión Escolar",
+    stand: "M8-2003",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Patricia Morales", "Andrés Jiménez"],
+    profesor: "Dr. Fernando Castro",
+    descripcion: "Sistema web para la gestión de inscripciones, calificaciones y horarios escolares.",
+    visitasHoy: 27,
+    calificacion: 4.6,
+    disponible: true,
+    horario: "12:00 - 14:00",
+  },
+  {
+    id: "5",
+    titulo: "App de Reservas de Laboratorios",
+    stand: "M5-3004",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Marina López", "Jorge Ramírez"],
+    profesor: "Dra. Laura Méndez",
+    descripcion: "Aplicación móvil para reservar laboratorios y equipos de cómputo en la escuela.",
+    visitasHoy: 15,
+    calificacion: 4.5,
+    disponible: true,
+    horario: "12:30 - 14:30",
+  },
+  {
+    id: "6",
+    titulo: "Red Social Académica",
+    stand: "M6-3010",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Sergio Díaz", "Paola Ríos"],
+    profesor: "Dr. Enrique Salinas",
+    descripcion: "Plataforma para conectar estudiantes y profesores, compartir recursos y organizar eventos académicos.",
+    visitasHoy: 20,
+    calificacion: 4.7,
+    disponible: true,
+    horario: "13:00 - 15:00",
+  },
+  {
+    id: "7",
+    titulo: "Análisis de Datos de Tráfico Vehicular",
+    stand: "M7-4006",
+    departamento: "Licenciatura en Ciencia de Datos",
+    estudiantes: ["Gabriela Torres", "Iván Mendoza"],
+    profesor: "Mtro. Oscar Hernández",
+    descripcion: "Proyecto de análisis y visualización de datos de tráfico para optimizar rutas en la ciudad.",
+    visitasHoy: 12,
+    calificacion: 4.4,
+    disponible: true,
+    horario: "13:30 - 15:30",
+  },
+  {
+    id: "8",
+    titulo: "Predicción de Enfermedades con Big Data",
+    stand: "M8-4007",
+    departamento: "Licenciatura en Ciencia de Datos",
+    estudiantes: ["Valeria Pineda", "Hugo Sánchez"],
+    profesor: "Ing. Alicia Romero",
+    descripcion: "Modelo predictivo para identificar riesgos de enfermedades usando grandes volúmenes de datos médicos.",
+    visitasHoy: 17,
+    calificacion: 4.8,
+    disponible: true,
+    horario: "14:00 - 16:00",
+  },
+  {
+    id: "9",
+    titulo: "Visualización Interactiva de Datos Climáticos",
+    stand: "M2-1008",
+    departamento: "Licenciatura en Ciencia de Datos",
+    estudiantes: ["Mario Castillo", "Fernanda Bravo"],
+    profesor: "Dra. Teresa Aguilar",
+    descripcion: "Dashboard interactivo para explorar y analizar datos históricos de clima en México.",
+    visitasHoy: 22,
+    calificacion: 4.6,
+    disponible: true,
+    horario: "14:30 - 16:30",
+  },
+  {
+    id: "10",
+    titulo: "Optimización de Rutas de Recolección de Basura",
+    stand: "M1-1009",
+    departamento: "Licenciatura en Ciencia de Datos",
+    estudiantes: ["Ricardo Flores", "Daniela Cruz", "Esteban Morales"],
+    profesor: "Dr. Pablo Zamora",
+    descripcion: "Algoritmo de optimización para mejorar la eficiencia en la recolección de residuos urbanos.",
+    visitasHoy: 19,
+    calificacion: 4.9,
+    disponible: true,
+    horario: "15:00 - 17:00",
+  },
+]
 
 const tiposVisitante = [
   { value: "estudiante", label: "Estudiante ESCOM" },
@@ -146,7 +244,7 @@ export default function RegistroDeVisita() {
       const visitaData = {
         nombre: formData.nombre,
         email: formData.email,
-        telefono: formData.telefono || "",
+        telefono: formData.telefono || "98",
         institucion: formData.institucion || "",
         tipoVisitante: formData.tipoVisitante,
         proyectoId: formData.proyectoId,
@@ -355,12 +453,12 @@ export default function RegistroDeVisita() {
                       </SelectTrigger>
                       <SelectContent>
                         {proyectosDisponibles.map((proyecto) => (
-                          <SelectItem key={proyecto.id} value={proyecto.id} disabled={!proyecto.status}>
+                          <SelectItem key={proyecto.id} value={proyecto.id} disabled={!proyecto.disponible}>
                             <div className="flex items-center justify-between w-full">
                               <span>
-                                {proyecto.title} - {proyecto.assignedSpace}
+                                {proyecto.titulo} - {proyecto.stand}
                               </span>
-                              {!proyecto.status && (
+                              {!proyecto.disponible && (
                                 <Badge variant="secondary" className="ml-2">
                                   No disponible
                                 </Badge>
@@ -484,7 +582,7 @@ export default function RegistroDeVisita() {
             </CardHeader>
             <CardContent className="space-y-3">
               {proyectosDisponibles
-                .sort((a, b) => (b.visitasHoy ?? 0) - (a.visitasHoy ?? 0))
+                .sort((a, b) => b.visitasHoy - a.visitasHoy)
                 .slice(0, 3)
                 .map((proyecto, index) => (
                   <div key={proyecto.id} className="flex items-center gap-3">
@@ -492,8 +590,8 @@ export default function RegistroDeVisita() {
                       <span className="text-xs font-bold text-blue-600">{index + 1}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{proyecto.title}</p>
-                      <p className="text-xs text-gray-500">{proyecto.assignedSpace}</p>
+                      <p className="text-sm font-medium text-gray-900 truncate">{proyecto.titulo}</p>
+                      <p className="text-xs text-gray-500">{proyecto.stand}</p>
                     </div>
                     <div className="flex items-center gap-1">
                       <Eye className="h-3 w-3 text-gray-400" />
