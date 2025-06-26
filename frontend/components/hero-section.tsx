@@ -28,7 +28,7 @@ function HeroSection() {
           </div>
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl">
-              <Badge className="text-white bg-blue-500 hover:bg-blue-500 mb-4">20-22 Junio 2025</Badge>              
+              <Badge className="text-white bg-blue-500 hover:bg-blue-500 mb-4">19-20 Junio 2025</Badge>              
               <TypewriterEffect words={words2} className="text-6xl mb-4 text-white"/>
 
               <TextGenerateEffect words={words} className="text-xl md:text-2xl mb-8 text-blue-100" duration={1.5}/>

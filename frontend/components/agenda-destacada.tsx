@@ -22,7 +22,7 @@ function AgendaDestacada() {
                   <div className="h-2 bg-blue-600"></div>
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <Badge variant="outline" className="text-gray-700">Día 1 - 20 Junio</Badge>
+                      <Badge variant="outline" className="text-gray-700">Día 1 - 19 Junio</Badge>
                       <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">Exposición</Badge>
                     </div>
                     <h3 className="text-gray-800 text-xl font-bold mb-2">
@@ -46,7 +46,7 @@ function AgendaDestacada() {
                   <div className="h-2 bg-purple-600"></div>
                   <CardContent className="p-6">
                     <div className="flex  justify-between items-start mb-4">
-                      <Badge variant="outline" className="text-gray-700">Día 2 - 21 Junio</Badge>
+                      <Badge variant="outline" className="text-gray-700">Día 1 - 19 Junio</Badge>
                       <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100">Conferencia</Badge>
                     </div>
                     <h3 className="text-xl text-gray-800 font-bold mb-2">Conferencia sobre innovación tecnológica y tendencias del sector
@@ -69,7 +69,7 @@ function AgendaDestacada() {
                   <div className="h-2 bg-green-600"></div>
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <Badge variant="outline" className="text-gray-700">Día 3 - 22 Junio</Badge>
+                      <Badge variant="outline" className="text-gray-700">Día 2 - 20 Junio</Badge>
                       <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Premiación</Badge>
                     </div>
                     <h3 className="text-xl text-gray-800 font-bold mb-2">

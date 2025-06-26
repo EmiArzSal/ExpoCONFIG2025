@@ -23,142 +23,93 @@ import {
   QrCode,
   Star,
   Eye,
+  ArrowLeftIcon,
 } from "lucide-react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
+import Link from "next/link"
 
 // Datos simulados más realistas
 const proyectosDisponibles = [
   {
     id: "1",
-    titulo: "Sistema de Detección de Fraudes con IA",
-    stand: "M5-1011",
-    departamento: "Ingeniería en Inteligencia Artificial",
-    estudiantes: ["Ana García", "Carlos López"],
-    profesor: "Dr. Juan Pérez",
-    descripcion: "Plataforma que utiliza modelos de machine learning para detectar fraudes bancarios en tiempo real.",
+    titulo: "Música Cheems",
+    stand: "M10-1011",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Aguilar Avendaño Erendil", "Alonso Corral Martha Julieta", "Cruz Torres Frida Paola", "Jimenez Cornejo Emanuel Adrián"],
+    profesor: "Reyna Elia Abarca",
+    descripcion: "Base de datos que organiza información sobre música, en la que se incluyen canciones, artistas, albumes y géneros.",
     visitasHoy: 23,
     calificacion: 4.8,
     disponible: true,
     horario: "10:30 - 12:30",
   },
+  
   {
-    id: "2",
-    titulo: "Asistente Virtual para Estudiantes",
-    stand: "M4-1006",
-    departamento: "Ingeniería en Inteligencia Artificial",
-    estudiantes: ["Luis Martín", "Sofía Chen"],
-    profesor: "Dra. Carmen Silva",
-    descripcion: "Chatbot inteligente que responde dudas académicas y administrativas usando procesamiento de lenguaje natural.",
-    visitasHoy: 31,
-    calificacion: 4.9,
-    disponible: true,
-    horario: "11:00 - 13:00",
-  },
-  {
-    id: "3",
-    titulo: "Sistema de Seguridad Biométrica",
-    stand: "M3-2007",
-    departamento: "Ingeniería en Inteligencia Artificial",
-    estudiantes: ["Roberto Kim", "Elena Vega"],
-    profesor: "Ing. Miguel Torres",
-    descripcion: "Autenticación multi-factor con reconocimiento facial y de voz para acceso seguro a laboratorios.",
-    visitasHoy: 18,
-    calificacion: 4.7,
-    disponible: true,
-    horario: "11:30 - 13:30",
-  },
-  {
-    id: "4",
-    titulo: "Plataforma de Gestión Escolar",
-    stand: "M8-2003",
+    id: "2 ",
+    titulo: "GreenStay",
+    stand: "M4-3010",
     departamento: "Ingeniería en Sistemas Computacionales",
-    estudiantes: ["Patricia Morales", "Andrés Jiménez"],
-    profesor: "Dr. Fernando Castro",
-    descripcion: "Sistema web para la gestión de inscripciones, calificaciones y horarios escolares.",
-    visitasHoy: 27,
-    calificacion: 4.6,
-    disponible: true,
-    horario: "12:00 - 14:00",
-  },
-  {
-    id: "5",
-    titulo: "App de Reservas de Laboratorios",
-    stand: "M5-3004",
-    departamento: "Ingeniería en Sistemas Computacionales",
-    estudiantes: ["Marina López", "Jorge Ramírez"],
-    profesor: "Dra. Laura Méndez",
-    descripcion: "Aplicación móvil para reservar laboratorios y equipos de cómputo en la escuela.",
-    visitasHoy: 15,
-    calificacion: 4.5,
-    disponible: true,
-    horario: "12:30 - 14:30",
-  },
-  {
-    id: "6",
-    titulo: "Red Social Académica",
-    stand: "M6-3010",
-    departamento: "Ingeniería en Sistemas Computacionales",
-    estudiantes: ["Sergio Díaz", "Paola Ríos"],
-    profesor: "Dr. Enrique Salinas",
-    descripcion: "Plataforma para conectar estudiantes y profesores, compartir recursos y organizar eventos académicos.",
-    visitasHoy: 20,
-    calificacion: 4.7,
-    disponible: true,
-    horario: "13:00 - 15:00",
-  },
-  {
-    id: "7",
-    titulo: "Análisis de Datos de Tráfico Vehicular",
-    stand: "M7-4006",
-    departamento: "Licenciatura en Ciencia de Datos",
-    estudiantes: ["Gabriela Torres", "Iván Mendoza"],
-    profesor: "Mtro. Oscar Hernández",
-    descripcion: "Proyecto de análisis y visualización de datos de tráfico para optimizar rutas en la ciudad.",
-    visitasHoy: 12,
-    calificacion: 4.4,
-    disponible: true,
-    horario: "13:30 - 15:30",
-  },
-  {
-    id: "8",
-    titulo: "Predicción de Enfermedades con Big Data",
-    stand: "M8-4007",
-    departamento: "Licenciatura en Ciencia de Datos",
-    estudiantes: ["Valeria Pineda", "Hugo Sánchez"],
-    profesor: "Ing. Alicia Romero",
-    descripcion: "Modelo predictivo para identificar riesgos de enfermedades usando grandes volúmenes de datos médicos.",
-    visitasHoy: 17,
-    calificacion: 4.8,
-    disponible: true,
-    horario: "14:00 - 16:00",
-  },
-  {
-    id: "9",
-    titulo: "Visualización Interactiva de Datos Climáticos",
-    stand: "M2-1008",
-    departamento: "Licenciatura en Ciencia de Datos",
-    estudiantes: ["Mario Castillo", "Fernanda Bravo"],
-    profesor: "Dra. Teresa Aguilar",
-    descripcion: "Dashboard interactivo para explorar y analizar datos históricos de clima en México.",
-    visitasHoy: 22,
-    calificacion: 4.6,
-    disponible: true,
-    horario: "14:30 - 16:30",
-  },
-  {
-    id: "10",
-    titulo: "Optimización de Rutas de Recolección de Basura",
-    stand: "M1-1009",
-    departamento: "Licenciatura en Ciencia de Datos",
-    estudiantes: ["Ricardo Flores", "Daniela Cruz", "Esteban Morales"],
-    profesor: "Dr. Pablo Zamora",
-    descripcion: "Algoritmo de optimización para mejorar la eficiencia en la recolección de residuos urbanos.",
+    estudiantes: ["Arzubide Garcia Gael Alejandro", "Cabrera Garcia Daniel", "Pozos Cabrera Karina"],
+    profesor: "Reyna Elia Abarca",
+    descripcion: "Aplicacion web que permita hacer reservaciones de un hotel, gestionar recursos humanos, administrar la disponibilidad de habitaciones y atencion al cliente.",
     visitasHoy: 19,
     calificacion: 4.9,
     disponible: true,
     horario: "15:00 - 17:00",
   },
+  {
+    id: "3",
+    titulo: "Sistema de control vehicular",
+    stand: "M11-3010",
+    departamento: "Licenciatura en Ciencia de Datos",
+    estudiantes: ["Arenas Vargas Joshua", "Morales Campuzano José Rodrigo", "Gonzalez Lievano Yolotzi Yonajil", "Hernandez Mendoza Emmanuel"],
+    profesor: "Ulises Vélez Saldaño",
+    descripcion: "Inventario inteligente para agencias automotrices. Registro de vehiculos por modelo, serie, año y estado. Control en tiempo real: en piso, apartado, entregado. Alertas automáticas y reportes dinámicos. Historial completo de cada vehículo.",
+    visitasHoy: 19,
+    calificacion: 4.9,
+    disponible: true,
+    horario: "10:30 - 12:00",
+  },
+  {
+    id: "4",
+    titulo: "EXPOConfig HexaDevs",
+    stand: "M3-3011",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Arzate Salazar Emiliano", "De la Lanza Rodríguez Irving", "Leon Arreola Alfredo", "Perez Muñoz Kevin Isaac"],
+    profesor: "Reyna Elia Abarca",
+    descripcion: "Sistema web para la gestion de proyectos, visitas, usuarios de EXPOEscom.",
+    visitasHoy: 15,
+    calificacion: 4.7,
+    disponible: true,
+    horario: "10:30 - 13:30",
+  },
+  {
+    id: "5",
+    titulo: "EXPOConfig Sharkpunks",
+    stand: "M2-3011",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Ortega Rodriguez Luis Orlando", "Pardo Córdoba Alonso", "González Reséndiz Erick", "Chávez Hernández Carol Monserrat"],
+    profesor: "Reyna Elia Abarca",
+    descripcion: "Sistema web para la gestion de proyectos, visitas, usuarios de EXPOEscom.",
+    visitasHoy: 15,
+    calificacion: 4.7,
+    disponible: true,
+    horario: "10:30 - 13:30",
+  },
+  {
+    id: "6",
+    titulo: "EXPOConfig UmiZoomi",
+    stand: "M1-3011",
+    departamento: "Ingeniería en Sistemas Computacionales",
+    estudiantes: ["Arellano Becerril Jesús Omar", "Cruz Aparicio Diego", "Domínguez Solís Christopher"],
+    profesor: "Reyna Elia Abarca",
+    descripcion: "Sistema web para la gestion de proyectos, visitas, usuarios de EXPOEscom.",
+    visitasHoy: 15,
+    calificacion: 4.7,
+    disponible: true,
+    horario: "10:30 - 13:30",
+  }, 
 ]
 
 const tiposVisitante = [
@@ -329,11 +280,17 @@ export default function RegistroDeVisita() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-8">
       {/* Header */}
+        <div className="flex hover:underline">
+        <ArrowLeftIcon className="h-6 w-6 text-blue-600 mb-4" />
+          <Link href="/" className="text-blue-600">
+            Regresar al inicio
+          </Link>
+        </div>
       <div className="max-w-4xl mx-auto mb-8">
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Award className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Expo ESCOM 2024</h1>
+            <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
+            <h1 className="text-3xl font-bold text-gray-900">Expo ESCOM 2025</h1>
           </div>
           <p className="text-lg text-gray-600">Registro de Visitantes</p>
           <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">

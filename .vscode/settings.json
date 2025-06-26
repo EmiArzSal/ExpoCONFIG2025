@@ -1,4 +1,7 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "idf.espIdfPathWin": "C:/Users/fredd/Escritorio/esp-idf/",
+  "idf.toolsPathWin": "C:\\Users\\fredd\\.espressif",
+  "idf.pythonInstallPath": "C:\\Users\\fredd\\.espressif\\tools\\idf-python\\3.8.7\\python.exe"
 }

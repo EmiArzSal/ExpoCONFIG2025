@@ -9,7 +9,7 @@ function Header() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Award className="h-8 w-8 text-blue-600" />
+            <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
             <Link href="/">
               <h1 className="text-2xl font-bold text-blue-600">Expo ESCOM</h1>
             </Link>

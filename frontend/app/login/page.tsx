@@ -135,7 +135,7 @@ export default function LoginPage() {
       </Link>
 
       <div className="flex items-center gap-2 mb-8">
-        <Award className="h-10 w-10 text-blue-600" />
+        <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
         <h1 className="text-3xl font-bold text-blue-600">EXPOConfig</h1>
       </div>
 

@@ -85,7 +85,7 @@ export function DashboardLayout({ children, userType }: DashboardLayoutProps) {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <Link href="/" className="flex items-center gap-2">
-            <Award className="h-6 w-6 text-blue-600" />
+            <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
             <span className="text-xl font-bold text-blue-600">EXPOConfig</span>
           </Link>
         </div>
@@ -131,8 +131,8 @@ export function DashboardLayout({ children, userType }: DashboardLayoutProps) {
         <SheetContent side="left" className="p-0 w-64">
           <div className="p-4 border-b border-gray-200">
             <Link href="/" className="flex items-center gap-2">
-              <Award className="h-6 w-6 text-blue-600" />
-              <span className="text-xl font-bold text-blue-600">EXPOConfig</span>
+            <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
+            <span className="text-xl font-bold text-blue-600">EXPOConfig</span>
             </Link>
           </div>
 

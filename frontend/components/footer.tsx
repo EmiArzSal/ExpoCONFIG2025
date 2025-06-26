@@ -9,7 +9,7 @@ function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Award className="h-6 w-6 text-blue-400" />
+              <img src="/images/escom-logo.png" alt="Expo ESCOM Logo" className="h-12 w-14 " />
                 <span className="text-xl font-bold">Expo ESCOM</span>
               </div>
               <p className="text-gray-400">
